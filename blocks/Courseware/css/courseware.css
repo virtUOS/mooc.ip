@@ -444,10 +444,10 @@ section#courseware ol.active-subchapter.ui-sortable li > a .handle {
 }
 section#courseware ol.active-subchapter.stuck {
   position: fixed;
-  top: 30px;
+  top: 25px;
   z-index: 5;
   background-color: #fff;
-  padding-left: 12px;
+  padding: 10px 0px 6px 1%;
 }
 section#courseware ol.active-subchapter[data-blockid=""] button.add-section,
 section#courseware ol.active-subchapter[data-blockid=""] button.init-sort-chapter,
