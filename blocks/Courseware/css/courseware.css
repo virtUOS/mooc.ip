@@ -239,15 +239,32 @@ section#courseware ol.subchapters .subchapter.loading > .title {
 section#courseware ol.active-subchapter {
   background-color: transparent;
   position: absolute;
-  top: 2em;
+  top: 1.5em;
   left: 23%;
   right: 12px;
+  padding: 10px 0px;
+}
+.navigation_position {
+	background-color: transparent;
+  position: absolute;
+  top: 2em;
+  left: 23% !important;
+  right: 12px !important;
   padding: 0px;
 }
+<<<<<<< HEAD
 section#courseware ol.active-subchapter li {
   display: block;
   float: left;
   margin: 0px 1px 0px 0px;
+=======
+.fixed_navigation {
+	position: fixed !important;
+	top: 24px !important;
+	right: 3% !important;
+	background-color: #fff !important;
+	z-index: 9999;
+>>>>>>> FETCH_HEAD
 }
 section#courseware ol.active-subchapter li.prev_next_navigation {
   background-color: #bbb;
@@ -434,10 +451,10 @@ section#courseware ol.active-subchapter.ui-sortable li > a .handle {
 }
 section#courseware ol.active-subchapter.stuck {
   position: fixed;
-  top: 30px;
+  top: 25px;
   z-index: 5;
   background-color: #fff;
-  padding-left: 12px;
+  padding: 10px 0px 6px 1%;
 }
 section#courseware ol.active-subchapter[data-blockid=""] button.add-section,
 section#courseware ol.active-subchapter[data-blockid=""] button.init-sort-chapter,
