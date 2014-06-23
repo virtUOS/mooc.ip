@@ -55,6 +55,21 @@ input::-moz-focus-inner {
   border: 0;
   padding: 0;
 }
+.navigation_position {
+  background-color: transparent;
+  position: absolute;
+  top: 2em;
+  left: 23% !important;
+  right: 12px !important;
+  padding: 0px;
+}
+.fixed_navigation {
+  position: fixed !important;
+  top: 24px !important;
+  right: 3% !important;
+  background-color: #fff !important;
+  z-index: 9999;
+}
 #mooc-courseware-index #layout_container {
   position: relative;
 }
@@ -244,20 +259,10 @@ section#courseware ol.active-subchapter {
   right: 12px;
   padding: 10px 0px;
 }
-.navigation_position {
-	background-color: transparent;
-  position: absolute;
-  top: 2em;
-  left: 23% !important;
-  right: 12px !important;
-  padding: 0px;
-}
-.fixed_navigation {
-	position: fixed !important;
-	top: 24px !important;
-	right: 3% !important;
-	background-color: #fff !important;
-	z-index: 9999;
+section#courseware ol.active-subchapter li {
+  display: block;
+  float: left;
+  margin: 0px 1px 0px 0px;
 }
 section#courseware ol.active-subchapter li.prev_next_navigation {
   background-color: #bbb;

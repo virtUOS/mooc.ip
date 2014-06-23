@@ -8,6 +8,23 @@ input::-moz-focus-inner {
   padding: 0;
 }
 
+.navigation_position {
+  background-color: transparent;
+  position: absolute;
+  top: 2em;
+  left: 23% !important;
+  right: 12px !important;
+  padding: 0px;
+}
+
+.fixed_navigation {
+  position: fixed !important;
+  top: 24px !important;
+  right: 3% !important;
+  background-color: #fff !important;
+  z-index: 9999;
+}
+
 #mooc-courseware-index #layout_container {
   position: relative;
 }
@@ -228,10 +245,10 @@ section#courseware {
   ol.active-subchapter {
     background-color: transparent;
     position: absolute;
-    top: 2em;
+    top: 1.5em;
     left: @sidebar-width + 5%;
     right: 12px;
-    padding: 0px;
+    padding: 10px 0px;
 
 
     li {
@@ -427,12 +444,12 @@ section#courseware {
     // ***** STICKY SECTION LIST *****
     &.stuck {
       position: fixed;
-      top: 30px;
+      top: 25px;
       z-index: 5;
       background-color: #fff;
 
       // add layout-container's padding
-      padding-left: 12px;
+      padding: 10px 0px 6px 1%;
     }
 
 
