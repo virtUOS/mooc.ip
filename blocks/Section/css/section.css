@@ -48,6 +48,10 @@
 .active-section > .title h1 .controls button.trash:hover {
   background-image: url("../../../../../../assets/images/icons/16/black/trash.png");
 }
+.active-section > .title > .edit-section > form {
+  margin-top: 20px;
+  margin-bottom: 35px;
+}
 .active-section > .title.loading h1 {
   background: url("../../../../../../assets/images/ajax_indicator_small.gif") center left no-repeat;
   padding-left: 20px;
