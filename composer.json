@@ -16,6 +16,6 @@
             "Mooc\\Import\\": "import/",
             "Mooc\\UI\\": "blocks/"
         },
-        "classmap": ["controllers/"]
+        "classmap": ["controllers/", "models/mooc"]
     }
 }
