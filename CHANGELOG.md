@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+* add plugin compatibility with Stud.IP 2.5
+
 1.0.2
 -----
 
