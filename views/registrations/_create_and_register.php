@@ -10,18 +10,23 @@ $termsOfServiceUrl = PluginEngine::getLink($plugin, array(), 'registrations/term
     <?php foreach ($fields as $field): ?>
         <?php if (is_array($field) && $field['fieldName'] === 'accept_tos'): ?>
             <input type="checkbox" name="accept_tos" id="mooc_sign_up_terms_of_service"<?= $field['required'] ? ' required' : '' ?>>
-            <label for="mooc_sign_up_terms_of_service">
+            <label for="mooc_sign_up_terms_of_service" class="tos">
                 Ich erkläre mich mit den <a href="<?= $termsOfServiceUrl ?>" target="_blank">Nutzungsbedingungen</a> einverstanden.
             </label>
         <?php elseif (is_array($field)): ?>
-            <label for="mooc_sign_up_<?= $field['fieldName'] ?>"><?= $field['label'] ?></label>:<br>
+            <label for="mooc_sign_up_<?= $field['fieldName'] ?>"<?= $field['required'] ? ' class="required"' : '' ?>>
+                <?= $field['label'] ?>
+                <?php if ($field['required']): ?>
+                    *
+                <?php endif ?>
+            </label>
             <input type="text"
                 name="<?= $field['fieldName'] ?>"
                 id="mooc_sign_up_<?= $field['fieldName'] ?>"
                 placeholder="<?= $field['label'] ?>"
                 value="<?= htmlReady($userInput[$field['fieldName']]) ?>"<?= $field['required'] ? ' required' : '' ?>>
         <?php else: ?>
-            <?= formatReady($field) ?>
+            <span class="mooc_registration_form_text"><?= $field ?></span>
         <?php endif ?>
     <?php endforeach ?>
 
