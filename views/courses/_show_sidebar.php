@@ -44,6 +44,6 @@ $perm = $GLOBALS['perm'];
 <? if ($preview_video) : ?>
 
 <div id="videobox" style="display: none;">
-    <iframe src="<?= $preview_video ?>" scrolling="no" allowfullscreen></iframe>
+    <iframe src="about:blank" data-url="<?= $preview_video ?>" scrolling="no" allowfullscreen></iframe>
 </div>
 <? endif ?>
