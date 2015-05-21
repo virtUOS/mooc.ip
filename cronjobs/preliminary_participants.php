@@ -45,13 +45,14 @@ class PreliminarParticipants extends CronJob
 
             // if the course has started, change it from preliminary to direct
             // and make all preliminaries real participants
-            $course->admission_prelim = 0;
-            $course->store();
-
-            // move participants
             if ($start_date <= time()) {
                 echo 'Kurs hat begonnen...' . "\n";
 
+                // change the admission_prelim status only, if the course has started
+                $course->admission_prelim = 0;
+                $course->store();
+
+                // move participants
                 $stmt = $db->prepare("INSERT INTO seminar_user
                             (user_id, seminar_id, status, mkdate)
                         SELECT user_id, seminar_id, 'autor', mkdate
