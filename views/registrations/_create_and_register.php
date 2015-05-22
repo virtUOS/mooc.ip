@@ -12,13 +12,15 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
 <form class="signup" method="post" action="<?= $controller->url_for('registrations/create') ?>">
     <? foreach ($fields as $field): ?>
         <? if (is_array($field) && $field['fieldName'] === 'accept_tos'): ?>
-            <input type="checkbox"
-                name="accept_tos"
-                id="mooc_sign_up_terms_of_service"
-                value="yes"<?= $field['required'] ? ' required' : '' ?><?= isset($userInput['accept_tos']) && $userInput['accept_tos'] == 'yes' ? ' checked' : '' ?>>
             <label for="mooc_sign_up_terms_of_service" class="tos">
-                Ich akzeptiere die <a href="<?= $termsOfServiceUrl ?>" target="_blank">Nutzungsbedingungen</a>
-                und die <a href="<?= $privacyPolicyUrl ?>" target="_blank">Datenschutzerklärung</a>.
+                <input type="checkbox" name="accept_tos"
+                    id="mooc_sign_up_terms_of_service"
+                    value="yes"<?= $field['required'] ? ' required' : '' ?><?= isset($userInput['accept_tos']) && $userInput['accept_tos'] == 'yes' ? ' checked' : '' ?>>
+
+                <span>
+                    Ich akzeptiere die <a href="<?= $termsOfServiceUrl ?>" target="_blank">Nutzungsbedingungen</a>
+                    und die <a href="<?= $privacyPolicyUrl ?>" target="_blank">Datenschutzerklärung</a>.
+                </span>
             </label>
         <? elseif (is_array($field)): ?>
             <label for="mooc_sign_up_<?= $field['fieldName'] ?>"<?= $field['required'] ? ' class="required"' : '' ?>>
