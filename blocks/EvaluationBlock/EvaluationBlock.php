@@ -70,10 +70,8 @@ class EvaluationBlock extends Block
             $content[] = array('id' =>  $evaluation->id ,
                                'title' => $evaluation->title,
                                'description' => $evaluation->text,
-                               'link' => \Studip\LinkButton::create(_('Anzeigen'),
-                                         \URLHelper::getURL('show_evaluation.php',
-                                         array('evalID' => $evaluation->id)),
-                                            array('data-dialog' => '', 'target' => '_blank')));
+                               'link' => \URLHelper::getURL('show_evaluation.php',
+                                            array('evalID' => $evaluation->id)));
         }
         return $content;
     }
