@@ -11,7 +11,7 @@ use Mooc\UI\Block;
  */
 class EvaluationBlock extends Block
 {
-    const NAME = 'Evalutaionen';
+    const NAME = 'Evaluationen';
 
     function initialize()
     {
@@ -30,11 +30,16 @@ class EvaluationBlock extends Block
 
     function student_view()
     {
+        if (!$active = self::evaluationActivated()) {
+            return compact('active');
+        }
+
         $this->setGrade(1.0);
         $eval_db = new \EvaluationDB();
         $evaluations = \StudipEvaluation::findMany($eval_db->getEvaluationIDs($this->container['cid'], EVAL_STATE_ACTIVE));
         $content = self::mustachify($evaluations);
-        return array('evaluations' => $evaluations, 'content' => $content);
+
+        return array('active' => true, 'content' => $content);
     }
 
     /**
@@ -45,24 +50,30 @@ class EvaluationBlock extends Block
         return false;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public static function additionalInstanceAllowed()
+    {
+        return self::evaluationActivated();
+    }
+
 
     private static function evaluationActivated()
     {
         return get_config('VOTE_ENABLE');
     }
 
-    private static  function mustachify($evaluations) {
+    private static function mustachify($evaluations) {
         $content = array();
         foreach($evaluations as $evaluation) {
             $content[] = array('id' =>  $evaluation->id ,
                                'title' => $evaluation->title,
                                'description' => $evaluation->text,
                                'link' => \Studip\LinkButton::create(_('Anzeigen'),
-                                            \URLHelper::getURL('show_evaluation.php',
-                                                array('evalID' => $evaluation->id)),
-                                                    array('data-dialog' => '', 'target' => '_blank')
-                                                )
-                );
+                                         \URLHelper::getURL('show_evaluation.php',
+                                         array('evalID' => $evaluation->id)),
+                                            array('data-dialog' => '', 'target' => '_blank')));
         }
         return $content;
     }
