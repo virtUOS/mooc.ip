@@ -202,7 +202,7 @@ class TestBlock extends Block
         parse_str($data, $requestParams);
 
         foreach ($requestParams as $key => $value) {
-            $_POST[$key] = $value;
+            $_POST[$key] = studip_utf8decode($value);
         }
 
         $vipsPlugin = VipsBridge::getVipsPlugin();
@@ -571,9 +571,13 @@ class TestBlock extends Block
                     'user_answers' => $userAnswers,
                 );
                 $entry['skip_entry'] = !$entry['show_solution'] && !$entry['solving_allowed'];
+
+                #var_dump($exercise->getVipsSolutionFor($this->test, $user));
                 $exercises[] = $entry;
             }
         }
+
+       # var_dump($exercises);
 
         return array(
             'title'       => $this->test->title,
