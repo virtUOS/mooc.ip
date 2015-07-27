@@ -20,7 +20,9 @@ class CronjobPreliminaryParticipants extends Migration
         $task_id = CronjobScheduler::registerTask(self::FILENAME, true);
 
         // Schedule job to run every day at 23:59
-        CronjobScheduler::schedulePeriodic($task_id, -5);  // negative value means "every x minutes"
+        if ($task_id) {
+            CronjobScheduler::schedulePeriodic($task_id, -5);  // negative value means "every x minutes"
+        }
     }
 
     function down()
