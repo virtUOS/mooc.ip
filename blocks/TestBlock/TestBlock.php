@@ -56,7 +56,7 @@ class TestBlock extends Block
         return array(
             'exam' => _('Klausur'),
             'selftest' => _('Selbsttest'),
-            'practice' => _('Übungsblatt'),
+            'practice' => _('ï¿½bungsblatt'),
         );
     }
 
@@ -587,7 +587,7 @@ class TestBlock extends Block
 
         return array(
             'title'       => $this->test->title,
-            'description' => nl2br(htmlReady($this->test->description)),
+            'description' => formatReady($this->test->description),
             'exercises'   => $exercises
         );
     }
