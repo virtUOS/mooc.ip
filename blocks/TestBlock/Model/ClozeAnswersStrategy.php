@@ -12,14 +12,6 @@ class ClozeAnswersStrategy extends AnswersStrategy
     /**
      * {@inheritDoc}
      */
-    public function getQuestion()
-    {
-        return $this->vipsExercise->getSolveTemplate()->render();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getSolution(array $solution = null)
     {
         $request = array();

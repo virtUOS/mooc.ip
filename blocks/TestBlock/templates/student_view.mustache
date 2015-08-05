@@ -9,71 +9,16 @@
     {{^skip_entry}}
       <ul class="exercise">
         <li>
-          <h3 class="title">{{ title }}</h3>
-
-          {{^cloze_answers}}
-            {{^free_text_answers}}
-              {{^multiple_choice_answers}}
-                {{^matching_exercise_answers}}
-                  {{> _question}}
-                {{/matching_exercise_answers}}
-              {{/multiple_choice_answers}}
-            {{/free_text_answers}}
-          {{/cloze_answers}}
+          {{^show_solution}}
+            {{> _question}}
+          {{/show_solution}}
 
           {{#show_solution}}
-            {{#free_text_answers}}
-              {{> _free_text_solution}}
-            {{/free_text_answers}}
-
-            {{#multiple_choice_answers}}
-              {{> _multiple_choice_solution}}
-            {{/multiple_choice_answers}}
-
-            {{^free_text_answers}}
-              {{^multiple_choice_answers}}
-                {{#matching_exercise_answers}}
-                  {{> _matching_exercise_solution}}
-                {{/matching_exercise_answers}}
-                {{^matching_exercise_answers}}
-                  {{> _solution.mustache}}
-                {{/matching_exercise_answers}}
-              {{/multiple_choice_answers}}
-            {{/free_text_answers}}
-
-            {{#cloze_answers}}
-              {{> _cloze_solution}}
-            {{/cloze_answers}}
+            {{> _solution}}
 
             {{#self_test}}
               {{> _reset_exercise}}
             {{/self_test}}
-          {{/show_solution}}
-
-          {{^show_solution}}
-            {{> _exercise_form_begin}}
-
-            {{#cloze_answers}}
-              {{> _vips_question}}
-            {{/cloze_answers}}
-
-            {{#single_choice_answers}}
-              {{> _single_choice_answers}}
-            {{/single_choice_answers}}
-
-            {{#multiple_choice_answers}}
-              {{> _multiple_choice_answers}}
-            {{/multiple_choice_answers}}
-
-            {{#free_text_answers}}
-              {{> _vips_question}}
-            {{/free_text_answers}}
-
-            {{#matching_exercise_answers}}
-              {{> _matching_exercise_answers}}
-            {{/matching_exercise_answers}}
-
-            {{> _exercise_form_end}}
           {{/show_solution}}
         </li>
       </ul>

@@ -203,19 +203,27 @@ class TestBlock extends Block
 
     public function exercise_submit_handler($data)
     {
-        global $vipsPlugin, $vipsTemplateFactory;
-
         parse_str($data, $requestParams);
 
-        foreach ($requestParams as $key => $value) {
-            $_POST[$key] = studip_utf8decode($value);
+        $test_id = $requestParams['assignment_id'];
+        $exercise_id = $requestParams['exercise_id'];
+
+        check_exercise_access($exercise_id, $test_id);
+
+        $test     = \VipsTest::find($test_id);
+        $exercise = \Exercise::find($exercise_id);
+
+        $start = $test->getStart();
+        $end = $test->getEnd();
+        $now = date('Y-m-d H:i:s');
+
+        // not yet started or already ended
+        if ($start > $now || $now > $end) {
+            throw new Exception(_('Das Aufgabenblatt kann zur Zeit nicht bearbeitet werden.'));
         }
 
-        $vipsPlugin = VipsBridge::getVipsPlugin();
-        $vipsTemplateFactory = new \Flexi_TemplateFactory(VipsBridge::getVipsPath().'/templates/');
-
-        \submit_exercise('sheets');
-        ob_clean();
+        $solution = $exercise->getSolutionFromRequest($requestParams);
+        $test->storeSolution($solution);
 
         $progress = $this->getProgress();
         $progress->max_grade = count($this->test->exercises);
@@ -575,6 +583,7 @@ class TestBlock extends Block
                     'number_of_answers' => count($answers),
                     $exercise->getAnswersStrategy()->getTemplate() => true,
                     'user_answers' => $userAnswers,
+                    'character_picker' => $exercise->getVipsExercise()->characterPicker
                 );
                 $entry['skip_entry'] = !$entry['show_solution'] && !$entry['solving_allowed'];
 
