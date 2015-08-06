@@ -127,71 +127,23 @@ class TestBlock extends Block
 
         parse_str($data, $requestData);
 
-        $testId = $requestData['test_id'];
-        $exerciseId = $requestData['exercise_id'];
+        $test_id     = $requestData['test_id'];
+        $exercise_id = $requestData['exercise_id'];
 
-        \check_test_access($testId);
+        check_test_access($test_id);
 
-        $db = \DBManager::get();
+        $test = \VipsTest::find($test_id);
 
-        // do not allow to delete solutions if the test is no selftest
-        $stmt = $db->prepare(
-            'SELECT
-              type
-            FROM
-              vips_test
-            WHERE
-              id = :test_id'
-        );
-        $stmt->bindValue(':test_id', $testId);
-        $stmt->execute();
+        $start = $test->getStart();
+        $end = $test->getEnd();
+        $now = date('Y-m-d H:i:s');
 
-        if ($stmt->fetchColumn() != 'selftest') {
-            return false;
+        // not yet started or already ended
+        if ($start > $now || $now > $end) {
+            throw new \Exception(_('Das Aufgabenblatt kann zur Zeit nicht bearbeitet werden.'));
         }
 
-        // delete the solution
-        $stmt = $db->prepare(
-            'DELETE FROM
-              vips_solution
-            WHERE
-              test_id = :test_id AND
-              exercise_id = :exercise_id AND
-              user_id = :user_id'
-        );
-        $stmt->bindValue(':test_id', $testId);
-        $stmt->bindValue(':exercise_id', $exerciseId);
-        $stmt->bindValue(':user_id', $user->cfg->getUserId());
-        $stmt->execute();
-
-        // determine the number of solutions of the current user that do still
-        // exist
-        $stmt = $db->prepare(
-            'SELECT
-              COUNT(*)
-            FROM
-              vips_solution
-            WHERE
-              test_id = :test_id AND
-              user_id = :user_id'
-        );
-        $stmt->bindValue(':test_id', $testId);
-        $stmt->bindValue(':user_id', $user->cfg->getUserId());
-        $stmt->execute();
-
-        // there are no solutions left, clean the solve start time
-        if ($stmt->fetchColumn() == 0) {
-            $stmt = $db->prepare(
-                'DELETE FROM
-                  vips_aufgaben_zeit
-                WHERE
-                  test_id = :test_id AND
-                  user_id = :user_id'
-            );
-            $stmt->bindValue(':test_id', $testId);
-            $stmt->bindValue(':user_id', $user->cfg->getUserId());
-            $stmt->execute();
-        }
+        $test->deleteSolution($user->id, $exercise_id);
 
         $progress = $this->getProgress();
         $progress->max_grade = count($this->test->exercises);
@@ -219,7 +171,7 @@ class TestBlock extends Block
 
         // not yet started or already ended
         if ($start > $now || $now > $end) {
-            throw new Exception(_('Das Aufgabenblatt kann zur Zeit nicht bearbeitet werden.'));
+            throw new \Exception(_('Das Aufgabenblatt kann zur Zeit nicht bearbeitet werden.'));
         }
 
         $solution = $exercise->getSolutionFromRequest($requestParams);

@@ -17,7 +17,9 @@
             {{> _solution}}
 
             {{#self_test}}
-              {{> _reset_exercise}}
+              {{#solving_allowed}}
+                {{> _reset_exercise}}
+              {{/solving_allowed}}
             {{/self_test}}
           {{/show_solution}}
         </li>
