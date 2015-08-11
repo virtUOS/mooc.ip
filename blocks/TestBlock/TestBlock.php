@@ -7,6 +7,7 @@ use Mooc\UI\Block;
 use Mooc\UI\Section\Section;
 use Mooc\UI\TestBlock\Model\Exercise;
 use Mooc\UI\TestBlock\Model\Test;
+use Mooc\UI\TestBlock\Model\Solution;
 use Mooc\UI\TestBlock\Vips\Bridge as VipsBridge;
 
 /**
@@ -54,20 +55,48 @@ class TestBlock extends Block
     public static function getSubTypes()
     {
         return array(
-            'exam' => _('Klausur'),
+            // removed via https://github.com/virtUOS/courseware/issues/19
+            // 'exam' => _('Klausur'),
             'selftest' => _('Selbsttest'),
-            'practice' => _('ï¿½bungsblatt'),
+            'practice' => _('Übungsblatt'),
         );
     }
 
     public function student_view()
     {
         $active = VipsBridge::vipsActivated($this);
-        return $active ? array_merge(compact('active'), $this->buildExercises()) : compact('active');
+        $typeOfThisTest      = $this->test->type;
+        $typeOfThisTestBlock = $this->_model->sub_type;
+        $blockId             = $this->_model->id;
+
+        if ($typeOfThisTest == null) {
+            return array(
+                'active'       => $active,
+                'exercises'    => false,
+                'typemismatch' => false
+            );
+        }
+
+        if ($typeOfThisTest !== $typeOfThisTestBlock) {
+            return array(
+                'active'       => $active,
+                'exercises'    => false,
+                'typemismatch' => true
+            );
+        }
+
+        return $active
+            ? array_merge(array(
+                    'active'  => $active,
+                    'blockid' => $blockId
+                ), $this->buildExercises())
+            : compact('active');
     }
 
     public function author_view()
     {
+        $this->authorizeUpdate();
+
         if (!$active = VipsBridge::vipsActivated($this)) {
             return compact('active');
         }
@@ -99,7 +128,7 @@ class TestBlock extends Block
     public function handle($name, $data = array())
     {
         if (!VipsBridge::vipsActivated($this)) {
-            throw \RuntimeException('Vips is not activated.');
+            throw new \RuntimeException('Vips is not activated.');
         }
 
         return parent::handle($name, $data);
@@ -109,7 +138,7 @@ class TestBlock extends Block
 
     public function modify_test_handler($testId)
     {
-        $this->requireUpdatableParent(array('parent' => $this->getModel()->parent_id));
+        $this->authorizeUpdate();
 
         // change the test id
         $this->test_id = $testId;
@@ -122,8 +151,7 @@ class TestBlock extends Block
 
     public function exercise_reset_handler($data)
     {
-        /** @var \Seminar_User $user */
-        global $user;
+        $user = $this->container['current_user'];
 
         parse_str($data, $requestData);
 
@@ -145,10 +173,7 @@ class TestBlock extends Block
 
         $test->deleteSolution($user->id, $exercise_id);
 
-        $progress = $this->getProgress();
-        $progress->max_grade = count($this->test->exercises);
-        $progress->grade--;
-        $progress->store();
+        $this->calcGrades();
 
         return array();
     }
@@ -156,6 +181,7 @@ class TestBlock extends Block
     public function exercise_submit_handler($data)
     {
         parse_str($data, $requestParams);
+        $requestParams = studip_utf8decode($requestParams);
 
         $test_id = $requestParams['assignment_id'];
         $exercise_id = $requestParams['exercise_id'];
@@ -177,13 +203,27 @@ class TestBlock extends Block
         $solution = $exercise->getSolutionFromRequest($requestParams);
         $test->storeSolution($solution);
 
-        $progress = $this->getProgress();
-        $progress->max_grade = count($this->test->exercises);
-        $progress->grade++;
-        $progress->store();
+        $this->calcGrades();
 
         return array();
-    }
+     }
+
+     public function calcGrades()
+     {
+         global $user;
+         $progress = $this->getProgress();
+         $progress->max_grade = count($this->test->exercises);
+         $progress->grade = 0;
+
+         foreach ($this->test->exercises as $exc) {
+             $solution = $exc->getSolutionFor($this->test, $user);
+             $correct = $solution ? ($exc->getPoints() == $solution->points) : false;
+             if ($correct) {
+                 $progress->grade++;
+             }
+         }
+
+     }
 
     /**
      * {@inheritdoc}
@@ -504,6 +544,8 @@ class TestBlock extends Block
         $exercises = array();
 
         if ($this->test) {
+            $numberofex =  count($this->test->exercises);
+            $exindex = 1;
             foreach ($this->test->exercises as $exercise) {
                 /** @var \Mooc\UI\TestBlock\Model\Exercise $exercise */
 
@@ -514,6 +556,19 @@ class TestBlock extends Block
 
                 $answers = $exercise->getAnswers($this->test, $user);
                 $userAnswers = $exercise->getUserAnswers($this->test, $user);
+                
+                if ($this->_model->sub_type == 'selftest') {
+                    // TT: determine if a correct solution has been handed in
+                    $solution = Solution::findOneBy($this->test, $exercise, $user);
+                    $evaluation = $exercise->getVipsExercise()->evaluate($solution->solution, $user->id);
+                    $correct = $evaluation['percent'] == 100;
+                    $tryagain = $solution && !$correct;
+                }
+                else {
+                    $correct =  false; 
+                    $tryagain = false;
+                }
+
                 $entry = array(
                     'exercise_type' => $exercise->getType(),
                     $exercise->getType() => 1,
@@ -533,23 +588,35 @@ class TestBlock extends Block
                     'solution' => $exercise->getAnswersStrategy()->getSolution($exercise->getVipsSolutionFor($this->test, $user)),
                     'solving_allowed' => $exercise->solvingAllowed($this->test, $user),
                     'number_of_answers' => count($answers),
+                    'number_of_exercises' => $numberofex,
+                    'exercise_index' => $exindex++,
                     $exercise->getAnswersStrategy()->getTemplate() => true,
                     'user_answers' => $userAnswers,
+                    'correct' => $correct,
+                    'tryagain' => $tryagain,
                     'character_picker' => $exercise->getVipsExercise()->characterPicker
                 );
-                $entry['skip_entry'] = !$entry['show_solution'] && !$entry['solving_allowed'];
 
-                #var_dump($exercise->getVipsSolutionFor($this->test, $user));
+                $entry['skip_entry'] = !$entry['show_solution'] && !$entry['solving_allowed'];
                 $exercises[] = $entry;
             }
         }
 
-       # var_dump($exercises);
+        // check, if there ist at least one visible exercise
+        $exercises_available = false;
+        foreach ($exercises as $ex) {
+            if (!$ex['skip_entry']) {
+                $exercises_available = true;
+                break;
+            }
+        }
 
         return array(
             'title'       => $this->test->title,
             'description' => formatReady($this->test->description),
-            'exercises'   => $exercises
+            'exercises'   => $exercises,
+            'exercises_available' => $exercises_available,
+            'solved_completely'   => $this->getProgress()->max_grade == $this->getProgress()->grade // all exercises solved?
         );
     }
 

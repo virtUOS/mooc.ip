@@ -27,7 +27,21 @@ class Test extends \SimpleORMap
             'on_store' => true,
         );
 
+        $this->has_many['refs'] = array(
+            'class_name' => 'Mooc\UI\TestBlock\Model\Refs',
+            'foreign_key' => 'id',
+            'assoc_foreign_key' => 'test_id',
+        );
+
         parent::__construct($id);
+
+
+        foreach ($this->exercises as $exc) {
+            $exc->setPoints($this->refs->filter(function ($ref) use ($exc) {
+                return $exc->id == $ref->exercise_id;
+            })->first()->points);
+        }
+
     }
 
     public function isSelfTest()

@@ -4,40 +4,76 @@ define(['assets/js/student_view', 'assets/js/url'], function (StudentView, helpe
     return StudentView.extend({
         events: {
             'click button[name=reset-exercise]': function (event) {
-                var $form = this.$(event.target).closest('form');
-                var view = this;
+                var $form = this.$(event.target).closest('form'),
+                    view = this,
+                    $exercise_index = $form.find("input[name='exercise_index']").val(),
+                    $block = this.$el.parent();
 
                 if (confirm('Soll die Antwort zurückgesetzt werden?')) {
-                    helper
-                        .callHandler(this.model.id, 'exercise_reset', $form.serialize())
+                    helper.callHandler(this.model.id, 'exercise_reset', $form.serialize())
                         .then(
                             function () {
-                                view.renderServerSide();
+                                return view.renderServerSide();
                             },
                             function () {
                                 console.log('failed to reset the exercise');
                             }
-                        ).done();
+                        )
+                        .then(function () {
+                            $block.find('.exercise').hide();
+                            $block.find('#exercise' + $exercise_index).show();
+                        })
+                        .done();
                 }
 
                 return false;
             },
-            'click button[name=submit-exercise]': function (event) {
-                var $form = this.$(event.target).closest('form');
-                var view = this;
 
-                helper
-                    .callHandler(this.model.id, 'exercise_submit', $form.serialize())
+            'click button[name=submit-exercise]': function (event) {
+                var $form = this.$(event.target).closest('form'),
+                    view = this,
+                    $exercise_index = $form.find("input[name='exercise_index']").val(),
+                    $block = this.$el.parent();
+            
+                helper.callHandler(this.model.id, 'exercise_submit', $form.serialize())
                     .then(
                         function () {
-                            view.renderServerSide();
+                            return view.renderServerSide();
                         },
                         function () {
                             console.log('failed to store the solution');
                         }
-                    ).done();
+                    )
+                    .then(function () {
+                        $block.find('.exercise').hide();
+                        $block.find('#exercise' + $exercise_index).show();
+                    })
+                    .done();
 
                 return false;
+            },
+
+            'click button[name=exercisenav]': function (event){
+                var options = $.parseJSON(this.$(event.target).attr('button-data')),
+                    $num = parseInt(options.id),
+                    $block = this.$el.parent();
+
+                if (options.direction == 'next') {
+                    $num++;
+                } else {
+                    $num--;
+                }
+
+                if ($num > parseInt(options.numexes, 10)) {
+                    $num = 1;
+                }
+
+                if ($num < 1) {
+                    $num = parseInt(options.numexes, 10);
+                }
+
+                $block.find('.exercise').hide();
+                $block.find('#exercise'+$num).show();
             }
         },
 
@@ -66,20 +102,23 @@ define(['assets/js/student_view', 'assets/js/url'], function (StudentView, helpe
                     }
                 }
             };
-            jQuery('ul.exercise_answers', this.$el).each(function () {
-                var $sortableAnswers = $(this);
-                var $sortableLabels = $('ul.matching_exercise.labels', $(this).parent());
-                fixAnswersHeight($('li', $sortableAnswers), $('li', $sortableLabels));
+
+            this.$('ul.exercise_answers').each(function () {
+                var $sortableAnswers = $(this),
+                    $sortableLabels = $sortableAnswers.parent().find('ul.matching_exercise.labels');
+
+                fixAnswersHeight($sortableAnswers.find('li'), $sortableLabels.find('li'));
+
                 $sortableAnswers.sortable({
                     axis: 'y',
                     cursor: 'move',
                     forcePlaceholderSize: true,
                     change: function () {
-                        fixAnswersHeight($('li', $sortableAnswers), $('li', $sortableLabels));
+                        fixAnswersHeight($sortableAnswers.find('li'), $sortableLabels.find('li'));
                     },
                     update: function () {
                         view.moveChoice($sortableAnswers);
-                        fixAnswersHeight($('li', $sortableAnswers), $('li', $sortableLabels));
+                        fixAnswersHeight($sortableAnswers.find('li'), $sortableLabels.find('li'));
                     }
                 });
             });

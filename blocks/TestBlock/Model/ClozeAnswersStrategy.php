@@ -15,8 +15,11 @@ class ClozeAnswersStrategy extends AnswersStrategy
     public function getSolution(array $solution = null)
     {
         $request = array();
-        foreach ($solution as $key => $value) {
-            $request['answer_' . $key] = $value;
+
+        if (is_array($solution)) {
+            foreach ($solution as $key => $value) {
+                $request['answer_' . $key] = $value;
+            }
         }
 
         $xml = $this->vipsExercise->genSolution($request);
