@@ -25,6 +25,7 @@ class Container extends \Pimple
     private function setupEnv()
     {
         $this['current_user_id'] = isset($GLOBALS['user']) ? $GLOBALS['user']->id : 'nobody';
+        $this['wysiwyg_refined'] = method_exists('Request', 'html');
 
         $this['current_user'] = function ($c) {
             $user = new User($c, $c['current_user_id']);
@@ -51,6 +52,11 @@ class Container extends \Pimple
     {
         $this['courseware_factory'] = function ($c) {
             return new CoursewareFactory($c);
+        };
+
+        $this['current_courseware'] = function ($c) {
+            $courseware_model = $c['courseware_factory']->makeCourseware($c['cid']);
+            return $c['block_factory']->makeBlock($courseware_model);
         };
     }
 

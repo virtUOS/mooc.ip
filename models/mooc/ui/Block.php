@@ -507,6 +507,14 @@ abstract class Block {
         }
     }
 
+    // enforce current user with 'canUpdate' permission of this block
+    protected function authorizeUpdate()
+    {
+        if (!$this->container['current_user']->canUpdate($this)) {
+            throw new Errors\AccessDenied(_("Sie sind nicht berechtigt diesen Block zu editieren."));
+        }
+    }
+
     protected function requireUpdatableParent($data)
     {
         // we need a valid parent
