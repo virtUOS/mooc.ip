@@ -39,6 +39,9 @@ class Courseware extends Block {
             $section_nav = $this->getNeighborSections($section);
         }
 
+        // renumber the indices of the subchapters, they not to be continuous!
+        $tree['subchapters'] = array_values($tree['subchapters']);
+
         return array_merge($tree, array(
             'user_may_author'   => $this->getCurrentUser()->canUpdate($this->_model),
             'section_nav'       => $section_nav,
