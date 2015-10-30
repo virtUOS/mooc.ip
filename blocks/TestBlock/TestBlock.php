@@ -385,7 +385,7 @@ class TestBlock extends Block
             return array();
         }
 
-        $descriptionNode = $document->createElement($alias.':description', $this->test->description);
+        $descriptionNode = $document->createElement($alias.':description', utf8_encode($this->test->description));
         $exercisesNode = $document->createElement($alias.':exercises');
 
         foreach ($this->test->exercises as $exercise) {
