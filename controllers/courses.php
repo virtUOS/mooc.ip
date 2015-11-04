@@ -1,12 +1,9 @@
 <?php
 
-use Mooc\UI\Block;
-use Mooc\UI\Courseware\Courseware;
-use Mooc\UI\VideoBlock\VideoBlock;
+use Mooc\VideoHelper;
 
 /**
  * @property \Request   $context
- * @property Courseware $courseware
  * @property \Course[]  $courses
  * @property \Course    $course
  * @property Block      $ui_block
@@ -67,14 +64,7 @@ class CoursesController extends MoocipController {
             Navigation::activateItem('/mooc/overview');
         }
 
-        $block = current(\Mooc\DB\Block::findBySQL('seminar_id IS NULL AND parent_id IS NULL'));
-
-        if (!$block) {
-            $block = \Mooc\DB\Block::create(array('type' => 'HtmlBlock', 'seminar_id' => '', 'title' => 'LandingPage'));
-        }
-
-        $this->ui_block = $this->plugin->getBlockFactory()->makeBlock($block);
-        $this->data     = $this->ui_block->getFields();
+        $this->data      = Config::get()->getValue(Mooc\OVERVIEW_CONTENT);
         $this->context  = clone Request::getInstance();
         $this->view     = 'student';
         $this->root     = $this->plugin->getCurrentUser()->getPerm() == 'root';
@@ -94,14 +84,7 @@ class CoursesController extends MoocipController {
             throw new AccessDeniedException('You need to be root to edit the overview-page');
         }
 
-        $block = current(\Mooc\DB\Block::findBySQL('seminar_id IS NULL AND parent_id IS NULL'));
-
-        if (!$block) {
-            $block = \Mooc\DB\Block::create(array('type' => 'HtmlBlock'));
-        }
-
-        $ui_block = $this->plugin->getBlockFactory()->makeBlock($block);
-        $ui_block->handle('save', array('content' => Request::get('content')), false);
+        Config::get()->store(Mooc\OVERVIEW_CONTENT, Request::get('content'));
 
         $this->redirect('courses/overview');
     }
@@ -125,7 +108,6 @@ class CoursesController extends MoocipController {
             $this->preliminary = true;
         }
 
-        $this->courseware = \Mooc\DB\Block::findCourseware($cid);
         $this->course = Course::find($cid);
         /** @var \DataFieldEntry[] $localEntries */
         $localEntries = DataFieldEntry::getDataFieldEntries($cid);
@@ -143,8 +125,8 @@ class CoursesController extends MoocipController {
             }
         }
 
-        if ($this->preview_image === null && preg_match(VideoBlock::YOUTUBE_PATTERN, $this->preview_video)) {
-            $this->preview_video = VideoBlock::cleanUpYouTubeUrl($this->preview_video);
+        if ($this->preview_image === null && preg_match(VideoHelper::YOUTUBE_PATTERN, $this->preview_video)) {
+            $this->preview_video = VideoHelper::cleanUpYouTubeUrl($this->preview_video);
             $this->preview_image = '//img.youtube.com/vi/'.basename($this->preview_video).'/0.jpg';
         }
     }
