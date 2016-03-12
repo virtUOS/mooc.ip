@@ -6,11 +6,11 @@
 
 
 <? if ($view == 'student') : ?>
-    <?= $data ?>
+    <?= $data['content'] ?>
 
 <? elseif ($view == 'author') : ?>
     <form method="post" action="<?= $controller->url_for('courses/store_overview') ?>">
-        <textarea class="wysiwyg add_toolbar" name="content" placeholder="Geben Sie hier Ihren Text ein"><?= htmlReady($data) ?></textarea>
+        <textarea name="content" placeholder="Geben Sie hier Ihren Text ein"><?= htmlReady($data['content']) ?></textarea>
 
         <?= \Studip\Button::createAccept('Speichern') ?>
         <?= \Studip\LinkButton::createCancel('Abbrechen', $controller->url_for('courses/overview')) ?>

@@ -6,6 +6,7 @@
 'use strict';
 
 <?
+$block_types = $plugin->getBlockFactory()->getBlockClasses();
 $plugin_url = PluginEngine::getURL($plugin, array(), '', true);
 $blocks_url  = current(explode("?", $controller->url_for("blocks")));
 ?>
