@@ -1,0 +1,46 @@
+<section
+  id=courseware
+  class="view-student{{#user_may_author}} user-may-author{{/user_may_author}} loading"
+  data-blockid="{{courseware.id}}"
+  data-type=Courseware>
+
+  <nav class=breadcrumb>
+    <ul>
+      {{#active_chapter}}
+        <li><a href="#">{{#titleize}}{{title}}{{/titleize}}</a></li>
+      {{/active_chapter}}
+      {{#active_subchapter}}
+        <li>» <a href="#">{{#titleize}}{{title}}{{/titleize}}</a></li>
+      {{/active_subchapter}}
+    </ul>
+  </nav>
+
+  <div class=mode-switch>
+    <button class="student" data-title="Studentenmodus"></button>
+    <button class="author" data-title="Autorenmodus"></button>
+  </div>
+
+  <ol class=chapters>
+
+    {{#chapters}}
+      {{> chapter}}
+    {{/chapters}}
+
+    <li class=no-content>{{#i18n}}Keine Kapitel{{/i18n}}</li>
+    <li class=controls>
+      <button class=add-chapter>{{#i18n}}Kapitel einfügen{{/i18n}}</button>
+      <button class=init-sort-chapter>{{#i18n}}Kapitel sortieren{{/i18n}}</button>
+      <button class=stop-sort-chapter>{{#i18n}}Sortieren abschließen{{/i18n}}</button>
+
+      <a class="button export" href="{{#plugin_url}}export{{/plugin_url}}"> Export </a>
+      <a class="button import" href="{{#plugin_url}}import{{/plugin_url}}"> Import </a>
+    </li>
+  </ol>
+
+  {{> active_subchapter}}
+
+  {{#active_section}}
+    {{> active_section}}
+  {{/active_section}}
+  <div class="clear"></div>
+</section>
