@@ -41,7 +41,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         }
     }
 
-    // bei Aufruf des Plugins über plugin.php/mooc/...
+    // bei Aufruf des Plugins ï¿½ber plugin.php/mooc/...
     public function initialize ()
     {
         PageLayout::setTitle($_SESSION['SessSemName']['header_line'] . ' - ' . $this->getPluginname());
@@ -57,11 +57,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         if ($this->isSlotModule()) {
             $tabs['mooc_overview']   = $this->getOverviewNavigation();
-        }
-
-        if (!$this->container['current_user']->hasPerm($course_id, 'dozent')) {
-            $progress_url = PluginEngine::getURL($this, compact('cid'), 'progress', true);
-            $tabs['mooc_progress'] = new Navigation(_('Fortschrittsübersicht'), $progress_url);
         }
 
         return $tabs;
@@ -221,7 +216,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
-            $overview_subnav = new Navigation(_('Übersicht'), $overview_url);
+            $overview_subnav = new Navigation(_('ï¿½bersicht'), $overview_url);
             $overview_subnav->setImage(Assets::image_path('icons/16/white/seminar.png'));
             $overview_subnav->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
             $navigation->addSubnavigation("overview", $overview_subnav);
@@ -282,14 +277,14 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $cid = $this->getContext();
         $url = PluginEngine::getURL($this, compact('cid'), 'courses/show/' . $cid, true);
 
-        $navigation = new Navigation(_('Übersicht'), $url);
+        $navigation = new Navigation(_('ï¿½bersicht'), $url);
         $navigation->setImage(Assets::image_path('icons/16/white/seminar.png'));
         $navigation->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
 
         $course = Course::find($cid);
         $sem_class = self::getMoocSemClass();
 
-        $navigation->addSubNavigation('overview', new Navigation(_('Übersicht'), $url));
+        $navigation->addSubNavigation('overview', new Navigation(_('ï¿½bersicht'), $url));
 
         if ($this->container['current_user']->hasPerm($cid, 'admin')
                 && !$sem_class['studygroup_mode']
