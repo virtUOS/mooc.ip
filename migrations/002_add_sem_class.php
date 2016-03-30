@@ -48,6 +48,17 @@ class AddSemClass extends Migration
         $sem_class = SemClass::getDefaultSemClass();
         $sem_class->set('name', $name);
         $sem_class->set('id', $id);
+
+        // Setting Mooc-courses default datafields: mooc should not to be disabled, courseware and mooc should be active
+        $current_modules = $sem_class->getModules(); // get modules
+        $current_modules['Mooc']['activated'] = '1'; // set values
+        $current_modules['Mooc']['sticky'] = '1'; // sticky = 1 -> can't be chosen in "more"-field of course
+        $current_modules['Courseware']['activated'] = '1';
+        $current_modules['Courseware']['sticky'] = '0';
+        $current_modules['VipsPlugin']['activated'] = '1';
+        $current_modules['VipsPlugin']['sticky'] = '0';
+        $sem_class->setModules($current_modules); // set modules
+
         $sem_class->store();
 
         $GLOBALS['SEM_CLASS'] = SemClass::refreshClasses();
@@ -86,7 +97,7 @@ class AddSemClass extends Migration
             'range'       => 'global',
             'section'     => 'global',
             'description' => 'ID der Veranstaltungsklasse für (M)OOC-Veranstaltungen.'
-            ));
+        ));
     }
 
     private function removeSemClassAndTypes($id)
