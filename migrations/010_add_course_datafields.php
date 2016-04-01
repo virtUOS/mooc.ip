@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Till GlÃ¶ggler <tgloeggl@uos.de>
+ * @author Till Glöggler <tgloeggl@uos.de>
  */
 class AddCourseDatafields extends Migration
 {
@@ -40,7 +40,7 @@ class AddCourseDatafields extends Migration
                 `object_class`, `edit_perms`, `view_perms`, `priority`,
                 `mkdate`, `chdate`, `type`, `typeparam`, `is_required`, `description`)
             VALUES (md5('(M)OOC Hinweise'), '(M)OOC Hinweise', 1,
-                ?, 3, 1, '0', NULL, NULL, 3, '', '0', 'Hinweise fÃ¼r (M)OOC Kurs')"
+                ?, 3, 1, '0', NULL, NULL, 3, '', '0', 'Hinweise für (M)OOC Kurs')"
         );
         $stm->execute(array($mooc_sem_class));
     }
@@ -49,7 +49,7 @@ class AddCourseDatafields extends Migration
     {
         DBManager::get()->exec(
             "DELETE FROM datafields WHERE datafield_id "
-            . "IN(md5('(M)OOC Startdatum'), md5('(M)OOC Dauer'), md5('(M)OOC Hinweise'))"
+                . "IN(md5('(M)OOC Startdatum'), md5('(M)OOC Dauer'), md5('(M)OOC Hinweise'))"
         );
     }
 }

@@ -37,13 +37,24 @@ class AddSemClass extends Migration
     {
         $db = DBManager::get();
         $name = \Mooc\SEM_CLASS_NAME;
+        $id = -1;
 
-        $this->validateUniqueness($name);
-
-        $statement = $db->prepare("INSERT INTO sem_classes SET name = ?, mkdate = UNIX_TIMESTAMP(), chdate = UNIX_TIMESTAMP()");
-        $statement->execute(array($name));
-
-        $id = $db->lastInsertId();
+        if($this->validateUniqueness($name)) {
+			$statement = $db->prepare("INSERT INTO sem_classes SET name = ?, mkdate = UNIX_TIMESTAMP(), chdate = UNIX_TIMESTAMP()");
+			$statement->execute(array($name));
+			$id = $db->lastInsertId();
+	    } else {
+			// We already got a type with that name, should be a previous installation ...
+            $statement = $db->prepare('SELECT id FROM sem_classes WHERE name = ?');
+            $statement->execute(array($name));
+            $id = $statement->fetchColumn();
+		}
+		
+		if($id === -1) {
+			$message = sprintf('Ungültige id (id=%d)', $id);
+            throw new Exception($message);
+		}
+		
 
         $sem_class = SemClass::getDefaultSemClass();
         $sem_class->set('name', $name);
@@ -57,6 +68,7 @@ class AddSemClass extends Migration
         $current_modules['Courseware']['sticky'] = '0';
         $current_modules['VipsPlugin']['activated'] = '1';
         $current_modules['VipsPlugin']['sticky'] = '0';
+        var_dump($current_modules);
         $sem_class->setModules($current_modules); // set modules
 
         $sem_class->store();
@@ -71,19 +83,28 @@ class AddSemClass extends Migration
         $statement = DBManager::get()->prepare('SELECT id FROM sem_classes WHERE name = ?');
         $statement->execute(array($name));
         if ($old = $statement->fetchColumn()) {
-            $message = sprintf('Es existiert bereits eine Veranstaltungskategorie mit dem Namen "%s" (id=%d)', htmlspecialchars($name), $old);
-            throw new Exception($message);
+            // $message = sprintf('Es existiert bereits eine Veranstaltungskategorie mit dem Namen "%s" (id=%d)', htmlspecialchars($name), $old);
+            // throw new Exception($message);
+            return false;
         }
+        return true;
     }
 
     private function addSemTypes($sc_id)
     {
         $db = DBManager::get();
-        $statement = $db->prepare(
-            "INSERT INTO sem_types SET name = ?, class = ?, mkdate = UNIX_TIMESTAMP(), chdate = UNIX_TIMESTAMP()");
 
         foreach (words(\Mooc\SEM_TYPE_NAMES) as $name) {
-            $statement->execute(array($name, $sc_id));
+
+            // Test wether that type already exists in db, if so, don't insert another one
+            $alreadyExists = $db->prepare('SELECT id FROM sem_types WHERE name = ?');
+            $alreadyExists->execute(array($name));
+            if(!$alreadyExists->fetchColumn()) {
+                $statement = $db->prepare(
+                    "INSERT INTO sem_types SET name = ?, class = ?, mkdate = UNIX_TIMESTAMP(), chdate = UNIX_TIMESTAMP()");
+                $statement->execute(array($name, $sc_id));
+            }
+
         }
         $GLOBALS['SEM_TYPE'] = SemType::refreshTypes();
     }
@@ -97,7 +118,7 @@ class AddSemClass extends Migration
             'range'       => 'global',
             'section'     => 'global',
             'description' => 'ID der Veranstaltungsklasse für (M)OOC-Veranstaltungen.'
-        ));
+            ));
     }
 
     private function removeSemClassAndTypes($id)
