@@ -38,6 +38,7 @@
 
 
 <? /* TODO: DRY!!! */ ?>
+<? if ($prelim_courses): ?>
 <? foreach ($prelim_courses as $data) : ?>
     <article data-cid="<?= $data['course']->id ?>">
         <img class="course-avatar-medium course-<?= $data['course']->id ?>"
@@ -74,6 +75,7 @@
 
     </article>
 <? endforeach ?>
+<? endif ?>
 
   <div class="empty">
     <p><?= _("Sie sind noch in keinem Mooc-Kurs eingetragen. ") ?></p>
