@@ -2,8 +2,8 @@
 namespace Mooc;
 
 const SEM_CLASS_CONFIG_ID         = 'MOOC_SEM_CLASS_CONFIG_ID';
-const SEM_CLASS_NAME              = '(M)OOC-artiges';
-const SEM_TYPE_NAMES              = 'Veranstaltung';
+const SEM_CLASS_NAME              = '(M)OOC.IP - Offene Online-Kurse';
+const SEM_TYPE_NAMES              = 'Online-Kurs';
 const USER_DOMAIN_NAME            = 'mooc-user';
 const REGISTRATION_FORM_CONFIG_ID = 'MOOC_REGISTRATION_FORM';
 const TERMS_OF_SERVICE_CONFIG_ID  = 'MOOC_TERMS_OF_SERVICE';
