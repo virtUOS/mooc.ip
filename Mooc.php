@@ -41,7 +41,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         }
     }
 
-    // bei Aufruf des Plugins ï¿½ber plugin.php/mooc/...
+    // bei Aufruf des Plugins über plugin.php/mooc/...
     public function initialize ()
     {
         PageLayout::setTitle($_SESSION['SessSemName']['header_line'] . ' - ' . $this->getPluginname());
@@ -216,7 +216,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
-            $overview_subnav = new Navigation(_('ï¿½bersicht'), $overview_url);
+            $overview_subnav = new Navigation(_('Übersicht'), $overview_url);
             $overview_subnav->setImage(Assets::image_path('icons/16/white/seminar.png'));
             $overview_subnav->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
             $navigation->addSubnavigation("overview", $overview_subnav);
@@ -277,20 +277,14 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $cid = $this->getContext();
         $url = PluginEngine::getURL($this, compact('cid'), 'courses/show/' . $cid, true);
 
-        $navigation = new Navigation(_('ï¿½bersicht'), $url);
+        $navigation = new Navigation(_('Übersicht'), $url);
         $navigation->setImage(Assets::image_path('icons/16/white/seminar.png'));
         $navigation->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
 
         $course = Course::find($cid);
         $sem_class = self::getMoocSemClass();
 
-        $navigation->addSubNavigation('overview', new Navigation(_('ï¿½bersicht'), $url));
-
-        if ($this->container['current_user']->hasPerm($cid, 'admin')
-                && !$sem_class['studygroup_mode']
-                && ($sem_class->getSlotModule("admin"))) {
-            $navigation->addSubNavigation('admin', new Navigation(_('Administration dieser Veranstaltung'), 'adminarea_start.php?new_sem=TRUE'));
-        }
+        $navigation->addSubNavigation('overview', new Navigation(_('Übersicht'), $url));
 
         if (!$course->admission_binding && !$this->container['current_user']->hasPerm($cid, 'tutor')
                 && $this->container['current_user_id'] != 'nobody') {
@@ -323,7 +317,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
     static function onDisable($id)
     {
-        self::removeMoocFromOverviewSlot();
+        $res = self::removeMoocFromOverviewSlot();
     }
 
     const OVERVIEW_SLOT = 'overview';
@@ -332,6 +326,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     {
         $sem_class = self::getMoocSemClass();
         $sem_class->setSlotModule(self::OVERVIEW_SLOT, __CLASS__);
+
         $sem_class->store();
     }
 
