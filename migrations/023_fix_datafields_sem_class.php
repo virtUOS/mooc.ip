@@ -61,9 +61,10 @@ class FixDatafieldsSemClass extends Migration
 
     public function down()
     {
-
+        $mooc_sem_class_id = $this->getMoocSemClassID();
+        Mooc::onDisable($mooc_sem_class_id);
     }
-
+    
     private function getMoocSemClassID()
     {
         return Config::get()->getValue(\Mooc\SEM_CLASS_CONFIG_ID);
