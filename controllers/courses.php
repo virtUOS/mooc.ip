@@ -40,16 +40,16 @@ class CoursesController extends MoocipController {
             $localEntries = DataFieldEntry::getDataFieldEntries($course->seminar_id);
             foreach ($localEntries as $entry) {
                 /** @var \DataFieldStructure $structure */
-                $accesser = null; // tmp variable to handle access
+                $accessor = null; // tmp variable to handle access
                 $structure = $entry->structure;
                 if($structure){
                     //old version, structure is needed
-                    $accesser = $structure;
+                    $accessor = $structure;
                 } else {
                     // new version, accessAllowed is part of datafield
-                    $accesser = $entry;
+                    $accessor = $entry;
                 }
-                if ($accesser->accessAllowed($GLOBALS['perm'])) {
+                if ($accessor->accessAllowed()) {
                     if ($entry->getValue()) {
                         foreach ($this->plugin->getDataFields() as $field => $id) {
                             if ($field != 'preview_image') {
