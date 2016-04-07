@@ -47,7 +47,7 @@ class CoursesController extends MoocipController {
                     $accessor = $structure;
                 } else {
                     // new version, accessAllowed is part of datafield
-                    $accessor = $entry;
+                    $accessor = $entry->model;
                 }
                 if ($accessor->accessAllowed()) {
                     if ($entry->getValue()) {

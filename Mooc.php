@@ -292,6 +292,13 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
                     'meine_seminare.php?auswahl='. $cid .'&cmd=suppose_to_kill'));
         }
 
+        if ($this->container['version']->olderThan(3.3)
+                && $this->container['current_user']->hasPerm($cid, 'admin')
+                && !$sem_class['studygroup_mode']
+                && ($sem_class->getSlotModule("admin"))) {
+            $navigation->addSubNavigation('admin', new Navigation(_('Administration dieser Veranstaltung'), 'adminarea_start.php?new_sem=TRUE'));
+        }
+
         return $navigation;
     }
 

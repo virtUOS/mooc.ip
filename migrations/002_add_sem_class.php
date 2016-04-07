@@ -68,7 +68,7 @@ class AddSemClass extends Migration
         $current_modules['Courseware']['sticky'] = '0';
         $current_modules['VipsPlugin']['activated'] = '1';
         $current_modules['VipsPlugin']['sticky'] = '0';
-        var_dump($current_modules);
+
         $sem_class->setModules($current_modules); // set modules
 
         $sem_class->store();
