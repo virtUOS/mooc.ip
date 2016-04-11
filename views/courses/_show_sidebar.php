@@ -24,7 +24,7 @@ $perm = $GLOBALS['perm'];
         <?php
         if ($start):
             echo 'Start: '.strftime('%x', strtotime($start));
-            $endAdmission = strtotime("+2 weeks 1 day", strtotime($start));
+            $endAdmission = strtotime("+1 week 1 day", strtotime($start));
         endif;
 
         if ($duration):
