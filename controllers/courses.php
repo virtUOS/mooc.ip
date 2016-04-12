@@ -37,6 +37,17 @@ class CoursesController extends MoocipController {
         $sem_class = \Mooc\SemClass::getMoocSemClass();
         $this->courses = $sem_class->getCourses();
         $this->preview_images = array();
+        
+        usort($this->courses, function($a, $b) {
+	    try{
+	    $fieldsb = DataFieldEntry::getDataFieldEntries($b->seminar_id);
+	    $fieldsa = DataFieldEntry::getDataFieldEntries($a->seminar_id);
+	    $valueb = $fieldsb['25890c68a68d310baad033125b89f938']->value;
+	    $valuea = $fieldsa['25890c68a68d310baad033125b89f938']->value;
+	    $result = strtotime($valueb) - strtotime($valuea);
+	    return $result;
+	    } catch (Exception $e) {return '0'; };
+	});
 
         foreach ($this->courses as $course) {
             /** @var \DataFieldEntry[] $localEntries */
