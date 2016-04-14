@@ -41,6 +41,11 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         }
     }
 
+    public function getPluginname()
+    {
+        return 'MOOC.IP - Open Courses';
+    }
+
     // bei Aufruf des Plugins über plugin.php/mooc/...
     public function initialize ()
     {
@@ -109,7 +114,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
                     }
                     return $memo;
                 }, array());
-                
+
                 if (in_array($course->id, $my_admissions) !== false) {
                     $prelim_courses[$course->id] = compact('course', 'datafields');
                 } else {
