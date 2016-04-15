@@ -25,7 +25,11 @@ $courseUrl = PluginEngine::getLink($plugin, $params, 'courses/show/'.$course->id
   	
 
   <h1><?= htmlReady($course->name) ?></h1>
-  <p class=subtitle><?= htmlReady($course->untertitel) ?></p>
-
+  <?
+	$fields = DataFieldEntry::getDataFieldEntries($course->seminar_id);
+	$value = $fields['25890c68a68d310baad033125b89f938']->value;
+  ?>
+  <p class=subtitle> Start: <?= htmlReady($value) ?></p>
+  
   <?= \Studip\LinkButton::create($label, $courseUrl) ?>
 </article>

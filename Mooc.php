@@ -132,6 +132,10 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
                 }
             }
         }
+        
+        usort($courses, function($a, $b) {
+    	    return strtotime($a['datafields']['start']) - strtotime($b['datafields']['start']);
+	});
 
         PageLayout::addStylesheet($this->getPluginURL().'/assets/start.css');
         PageLayout::addScript($this->getPluginURL().'/assets/js/moocip_widget.js');
