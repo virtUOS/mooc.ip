@@ -162,14 +162,14 @@ class CoursesController extends MoocipController {
                 $data['description'] = formatLinks($lockdata['description']);
             }
 
-            return $this->json_error(_('Das Abonnement der Veranstaltung kann nicht aufgehoben werden.'), 403, $data);
+            return $this->json_error(_mooc('Das Abonnement der Veranstaltung kann nicht aufgehoben werden.'), 403, $data);
         }
 
         $old_school = new Seminar($course);
         $status = $old_school->deleteMember($user_id);
 
         if (!$status) {
-            return $this->json_error(_('Das Abonnement der Veranstaltung konnte nicht aufgehoben werden.'), 400);
+            return $this->json_error(_mooc('Das Abonnement der Veranstaltung konnte nicht aufgehoben werden.'), 400);
         }
         $this->render_json(array('status' => 'success'));
     }

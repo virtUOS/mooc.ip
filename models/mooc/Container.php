@@ -66,7 +66,7 @@ class Container extends \Pimple
         $c = $this;
         return array(
 
-            'i18n' => function ($text) { return _($text); },
+            'i18n' => function ($text) { return _mooc($text); },
 
             'plugin_url' => function ($text, $helper) use ($c) {
                 return \PluginEngine::getURL($c['plugin'], array(), $helper->render($text));

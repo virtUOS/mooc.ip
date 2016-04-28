@@ -1,0 +1,189 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-28 18:04+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: Mooc.php:143
+msgid "Mooc.IP-Kurse"
+msgstr ""
+
+#: Mooc.php:232 Mooc.php:293 Mooc.php:300
+msgid "Übersicht"
+msgstr ""
+
+#: Mooc.php:239
+msgid "MOOCs"
+msgstr ""
+
+#: Mooc.php:240
+msgid "Alle Kurse"
+msgstr ""
+
+#: Mooc.php:304
+msgid "Austragen aus der Veranstaltung"
+msgstr ""
+
+#: Mooc.php:312
+msgid "Administration dieser Veranstaltung"
+msgstr ""
+
+#: controllers/courses.php:165
+msgid "Das Abonnement der Veranstaltung kann nicht aufgehoben werden."
+msgstr ""
+
+#: controllers/courses.php:172
+msgid "Das Abonnement der Veranstaltung konnte nicht aufgehoben werden."
+msgstr ""
+
+#: controllers/moocip_controller.php:150
+msgid "Mooc.IP"
+msgstr ""
+
+#: controllers/registrations.php:44
+msgid "Sie müssen die Nutzungsbedingungen akzeptieren!"
+msgstr ""
+
+#: controllers/registrations.php:86
+msgid "Die Bestätigungsmail wurde erfolgreich erneut versendet!"
+msgstr ""
+
+#: controllers/registrations.php:154
+msgid "Sie müssen alle Pflichtfelder ausfüllen!"
+msgstr ""
+
+#: controllers/registrations.php:181
+msgid "Es gibt bereits einen Nutzer mit dieser E-Mail-Adresse!"
+msgstr ""
+
+#: controllers/registrations.php:241
+#, php-format
+msgid ""
+"Ihre Zugangsdaten für den MOOC-Kurs '%s':\n"
+"\n"
+"Benutzername: %s \n"
+"Passwort: %s \n"
+"\n"
+"Hier kommen Sie direkt zum Kurs:\n"
+" %s"
+msgstr ""
+
+#: controllers/registrations.php:247
+#, php-format
+msgid "Zugang zum MOOC-Kurs \"%s\""
+msgstr ""
+
+#: controllers/registrations.php:370
+msgid "unbekannt"
+msgstr ""
+
+#: controllers/registrations.php:371
+msgid "männlich"
+msgstr ""
+
+#: controllers/registrations.php:372
+msgid "weiblich"
+msgstr ""
+
+#: cronjobs/preliminary_participants.php:15
+msgid "MOOC.IP - Vorläufige Nutzer in Veranstaltung übertragen"
+msgstr ""
+
+#: cronjobs/preliminary_participants.php:20
+msgid ""
+"Ändert nach Kursstart den Status aller vorläufig Teilnehmenden zu regulär "
+"Teilnehmenden und ändert das Anledeverfahren auf Direkteintrag."
+msgstr ""
+
+#: views/courses/overview.php:3
+msgid "Bearbeiten"
+msgstr ""
+
+#: views/courses/show.php:27
+msgid ""
+"Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf die "
+"Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!"
+msgstr ""
+
+#: views/registrations/_create_and_register.php:34
+msgid "--"
+msgstr ""
+
+#: views/registrations/_create_and_register.php:63
+#: views/registrations/_login_and_register.php:12
+#: views/registrations/_register.php:9
+msgid "Jetzt anmelden"
+msgstr ""
+
+#: views/registrations/_login_and_register.php:2
+#: views/registrations/show.php:28
+msgid "Benutzername"
+msgstr ""
+
+#: views/registrations/_login_and_register.php:3
+#: views/registrations/show.php:29
+msgid "Passwort"
+msgstr ""
+
+#: views/registrations/_login_and_register.php:7
+#: views/registrations/_register.php:4
+msgid "Ich bin mit den Nutzungsbedingungen einverstanden."
+msgstr ""
+
+#: views/registrations/new.php:13
+#, php-format
+msgid "Anmeldung für \"%s\""
+msgstr ""
+
+#: views/registrations/show.php:7
+msgid "Vielen Dank für Ihre Anmeldung!"
+msgstr ""
+
+#: views/registrations/show.php:11
+msgid "Bitte loggen Sie sich ein!"
+msgstr ""
+
+#: views/registrations/show.php:14
+msgid ""
+"Wir haben soeben eine E-Mail an die angegebene Adresse geschickt, in der Ihr "
+"Passwort enthalten ist. Mit diesem Passwort können Sie sich nun einloggen."
+msgstr ""
+
+#: views/registrations/show.php:17
+msgid ""
+"Falls Sie die E-Mail nicht erhalten haben, können Sie sie sich erneut "
+"schicken lassen."
+msgstr ""
+
+#: views/registrations/show.php:19
+msgid "E-Mail erneut senden"
+msgstr ""
+
+#: views/registrations/show.php:30
+msgid "Jetzt einloggen"
+msgstr ""
+
+#: views/start/index.php:22 views/start/index.php:62
+msgid "Kurs anzeigen"
+msgstr ""
+
+#: views/start/index.php:31 views/start/index.php:71
+msgid "Mitgliedschaft beenden"
+msgstr ""
+
+#: views/start/index.php:81
+msgid "Sie sind noch in keinem Mooc-Kurs eingetragen. "
+msgstr ""

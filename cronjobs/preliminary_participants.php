@@ -12,12 +12,12 @@ class PreliminarParticipants extends CronJob
 
     public static function getName()
     {
-        return _('MOOC.IP - Vorläufige Nutzer in Veranstaltung übertragen');
+        return _mooc('MOOC.IP - Vorläufige Nutzer in Veranstaltung übertragen');
     }
 
     public static function getDescription()
     {
-        return _('Ändert nach Kursstart den Status aller vorläufig Teilnehmenden zu regulär Teilnehmenden und ändert das Anledeverfahren auf Direkteintrag.');
+        return _mooc('Ändert nach Kursstart den Status aller vorläufig Teilnehmenden zu regulär Teilnehmenden und ändert das Anledeverfahren auf Direkteintrag.');
     }
 
     public function execute($last_result, $parameters = array())

@@ -1,6 +1,6 @@
 <? $body_id = 'mooc-courses-overview' ?>
 <? if ($root && $view == 'student') : ?>
-    <?= Studip\LinkButton::create(_('Bearbeiten'), $controller->url_for('courses/overview/edit')); ?><br>
+    <?= Studip\LinkButton::create(_mooc('Bearbeiten'), $controller->url_for('courses/overview/edit')); ?><br>
     <br>
 <? endif ?>
 

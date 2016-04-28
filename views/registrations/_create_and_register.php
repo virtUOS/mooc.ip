@@ -31,7 +31,7 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
             </label>
             <? if (is_array($field['choices'])): ?>
                 <select name="<?= $field['fieldName'] ?>" id="mooc_sign_up_<?= $field['fieldName'] ?>"<?= $field['required'] ? ' required' : '' ?>>
-                    <option><?=_('--')?></option>
+                    <option><?=_mooc('--')?></option>
                     <? foreach ($field['choices'] as $choice): ?>
                         <? $choice = trim($choice) ?>
                         <option value="<?=htmlReady($choice)?>"<?=$userInput[$field['fieldName']] == $choice ? ' selected' : ''?>><?=htmlReady($choice)?></option>
@@ -60,5 +60,5 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
 
     <input type="hidden" name="type" value="create">
     <input type="hidden" name="moocid" value="<?= htmlReady($cid) ?>">
-    <?= Studip\Button::create(_('Jetzt anmelden')) ?>
+    <?= Studip\Button::create(_mooc('Jetzt anmelden')) ?>
 </form>

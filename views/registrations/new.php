@@ -10,7 +10,7 @@ $body_id = 'mooc-registrations-index';
 <? endif ?>
 
 <h1>
-  <? printf(_('Anmeldung für "%s"'), htmlReady($course->name)) ?>
+  <? printf(_mooc('Anmeldung für "%s"'), htmlReady($course->name)) ?>
 </h1>
 
 <? if ($plugin->getCurrentUserId() === 'nobody') : ?>

@@ -23,6 +23,14 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     public function __construct() {
         parent::__construct();
 
+        // set text-domain for translations in this plugin
+        bindtextdomain('mooc', dirname(__FILE__) . '/locale');
+
+        // define a short-hand function for translating text. This function is now registerd in the global scope. xD
+        function _mooc($message) {
+            return dgettext('mooc', $message);
+        }
+
         // adjust host system
         $this->setupCompatibility();
 
@@ -132,7 +140,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $template->courses = $courses;
         $template->prelim_courses = $prelim_courses;
         $template->preview_images = $preview_images;
-        $template->title = _('Mooc.IP-Kurse');
+        $template->title = _mooc('Mooc.IP-Kurse');
 
         return $template;
     }
@@ -221,15 +229,15 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
-            $overview_subnav = new Navigation(_('Übersicht'), $overview_url);
+            $overview_subnav = new Navigation(_mooc('Übersicht'), $overview_url);
             $overview_subnav->setImage(Assets::image_path('icons/16/white/seminar.png'));
             $overview_subnav->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
             $navigation->addSubnavigation("overview", $overview_subnav);
 
             $navigation->addSubnavigation('registrations', $this->getRegistrationsNavigation());
         } else {
-            $navigation->addSubnavigation("overview", new Navigation(_('MOOCs'), $url_overview));
-            $navigation->addSubnavigation("all", new Navigation(_('Alle Kurse'), $url_courses));
+            $navigation->addSubnavigation("overview", new Navigation(_mooc('MOOCs'), $url_overview));
+            $navigation->addSubnavigation("all", new Navigation(_mooc('Alle Kurse'), $url_courses));
         }
 
         Navigation::addItem('/mooc', $navigation);
@@ -282,18 +290,18 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $cid = $this->getContext();
         $url = PluginEngine::getURL($this, compact('cid'), 'courses/show/' . $cid, true);
 
-        $navigation = new Navigation(_('Übersicht'), $url);
+        $navigation = new Navigation(_mooc('Übersicht'), $url);
         $navigation->setImage(Assets::image_path('icons/16/white/seminar.png'));
         $navigation->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
 
         $course = Course::find($cid);
         $sem_class = self::getMoocSemClass();
 
-        $navigation->addSubNavigation('overview', new Navigation(_('Übersicht'), $url));
+        $navigation->addSubNavigation('overview', new Navigation(_mooc('Übersicht'), $url));
 
         if (!$course->admission_binding && !$this->container['current_user']->hasPerm($cid, 'tutor')
                 && $this->container['current_user_id'] != 'nobody') {
-            $navigation->addSubNavigation('leave', new Navigation(_('Austragen aus der Veranstaltung'),
+            $navigation->addSubNavigation('leave', new Navigation(_mooc('Austragen aus der Veranstaltung'),
                     'meine_seminare.php?auswahl='. $cid .'&cmd=suppose_to_kill'));
         }
 
@@ -301,7 +309,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
                 && $this->container['current_user']->hasPerm($cid, 'admin')
                 && !$sem_class['studygroup_mode']
                 && ($sem_class->getSlotModule("admin"))) {
-            $navigation->addSubNavigation('admin', new Navigation(_('Administration dieser Veranstaltung'), 'adminarea_start.php?new_sem=TRUE'));
+            $navigation->addSubNavigation('admin', new Navigation(_mooc('Administration dieser Veranstaltung'), 'adminarea_start.php?new_sem=TRUE'));
         }
 
         return $navigation;
