@@ -73,6 +73,19 @@ class AddSemClass extends Migration
 
         $sem_class->store();
 
+
+        // set Mooc-Plugin as not choosable in all other sem-classes
+        foreach ($GLOBALS['SEM_CLASS'] as $sc) {
+            if ($sc['name'] == $name) continue;                                 // do not overwrite mooc-class
+
+            $modules = $sc->getModules();                                       // get modules
+            $modules['Mooc']['activated'] = '1';                                // set values
+            $modules['Mooc']['sticky'] = '1';                                   // sticky = 1 -> disable on plus-page in seminar
+
+            $sc->setModules($current_modules);                                  // set modules
+            $sc->store();
+        }
+
         $GLOBALS['SEM_CLASS'] = SemClass::refreshClasses();
 
         return $id;
