@@ -31,12 +31,12 @@ endif;
 <p class=subtitle><?= htmlReady($course->untertitel) ?></p>
 
 <article class=requirements>
-  <h1>Voraussetzungen</h1>
+  <h1><?= _mooc('Voraussetzungen') ?></h1>
   <p><?= formatReady($course->vorrausetzungen) ?></p>
 </article>
 
 <article class=description>
-  <h1>Kursbeschreibung</h1>
+  <h1><?= _mooc('Kursbeschreibung') ?></h1>
   <p><?= formatReady($course->beschreibung) ?></p>
 </article>
 
