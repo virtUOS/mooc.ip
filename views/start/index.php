@@ -1,3 +1,4 @@
+<? if($GLOBALS['user']->id && $GLOBALS['user']->id != 'nobody'): ?>
 <section id="mooc-course-list">
 <? foreach ($courses as $data) : ?>
     <article data-cid="<?= $data['course']->id ?>">
@@ -85,3 +86,4 @@
 
 <?= \Studip\LinkButton::createEnroll('Für weiteren Kurs registrieren',
                                PluginEngine::getURL($plugin, array('cid' => null), 'courses/index')) ?>
+<? endif ?>
