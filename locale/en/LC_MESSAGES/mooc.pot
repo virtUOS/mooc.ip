@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 11:50+0200\n"
+"POT-Creation-Date: 2016-05-03 11:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr ""
 msgid "MOOCs"
 msgstr ""
 
-#: Mooc.php:240
+#: Mooc.php:240 views/courses/index.php:5
 msgid "Alle Kurse"
 msgstr ""
 
@@ -108,6 +108,19 @@ msgid ""
 "Teilnehmenden und ändert das Anledeverfahren auf Direkteintrag."
 msgstr ""
 
+#: views/courses/_index_item.php:12
+msgid "Zum Kurs"
+msgstr ""
+
+#: views/courses/_index_item.php:15
+msgid "Mehr…"
+msgstr ""
+
+#: views/courses/index.php:6
+msgid ""
+"Registrieren Sie sich direkt f&uuml;r einen oder mehrere der aktuellen Kurse"
+msgstr ""
+
 #: views/courses/overview.php:3
 msgid "Bearbeiten"
 msgstr ""
@@ -184,14 +197,14 @@ msgstr ""
 msgid "Jetzt einloggen"
 msgstr ""
 
-#: views/start/index.php:22 views/start/index.php:62
+#: views/start/index.php:23 views/start/index.php:63
 msgid "Kurs anzeigen"
 msgstr ""
 
-#: views/start/index.php:31 views/start/index.php:71
+#: views/start/index.php:32 views/start/index.php:72
 msgid "Mitgliedschaft beenden"
 msgstr ""
 
-#: views/start/index.php:81
+#: views/start/index.php:82
 msgid "Sie sind noch in keinem Mooc-Kurs eingetragen. "
 msgstr ""

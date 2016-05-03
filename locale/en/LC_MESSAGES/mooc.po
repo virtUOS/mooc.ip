@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 11:50+0200\n"
+"POT-Creation-Date: 2016-05-03 11:10+0200\n"
 "PO-Revision-Date: 2016-04-28 22:15+0200\n"
 "Last-Translator: Tobias Thelen <tobias.thelen@uni-osnabrueck.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,7 +29,7 @@ msgstr "Overview"
 msgid "MOOCs"
 msgstr "MOOCs"
 
-#: Mooc.php:240
+#: Mooc.php:240 views/courses/index.php:5
 msgid "Alle Kurse"
 msgstr "All courses"
 
@@ -117,6 +117,19 @@ msgstr ""
 "Changes the status of all preliminary users to regular user status after "
 "course start and changes enrolment procedure to 'direct entry'."
 
+#: views/courses/_index_item.php:12
+msgid "Zum Kurs"
+msgstr "Go to Course"
+
+#: views/courses/_index_item.php:15
+msgid "Mehr…"
+msgstr "More…"
+
+#: views/courses/index.php:6
+msgid ""
+"Registrieren Sie sich direkt f&uuml;r einen oder mehrere der aktuellen Kurse"
+msgstr "Sign in for one or more courses directly"
+
 #: views/courses/overview.php:3
 msgid "Bearbeiten"
 msgstr "Edit"
@@ -197,14 +210,14 @@ msgstr "Send email again"
 msgid "Jetzt einloggen"
 msgstr "Log in now"
 
-#: views/start/index.php:22 views/start/index.php:62
+#: views/start/index.php:23 views/start/index.php:63
 msgid "Kurs anzeigen"
 msgstr "Show course"
 
-#: views/start/index.php:31 views/start/index.php:71
+#: views/start/index.php:32 views/start/index.php:72
 msgid "Mitgliedschaft beenden"
 msgstr "Cancel subscription"
 
-#: views/start/index.php:81
+#: views/start/index.php:82
 msgid "Sie sind noch in keinem Mooc-Kurs eingetragen. "
 msgstr "You are not enrolled in any MOOC course."
