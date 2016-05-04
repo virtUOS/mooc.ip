@@ -17,27 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Mooc.php:143
+#: Mooc.php:146
 msgid "Mooc.IP-Kurse"
 msgstr "Mooc.IP courses"
 
-#: Mooc.php:232 Mooc.php:293 Mooc.php:300
+#: Mooc.php:239 Mooc.php:300 Mooc.php:307
 msgid "Übersicht"
 msgstr "Overview"
 
-#: Mooc.php:239
+#: Mooc.php:246
 msgid "MOOCs"
 msgstr "MOOCs"
 
-#: Mooc.php:240
+#: Mooc.php:247
 msgid "Alle Kurse"
 msgstr "All courses"
 
-#: Mooc.php:304
+#: Mooc.php:311
 msgid "Austragen aus der Veranstaltung"
 msgstr "Unsubscribe from a course"
 
-#: Mooc.php:312
+#: Mooc.php:319
 msgid "Administration dieser Veranstaltung"
 msgstr "Administer this course"
 

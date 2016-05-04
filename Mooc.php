@@ -27,8 +27,10 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         bindtextdomain('mooc', dirname(__FILE__) . '/locale');
 
         // define a short-hand function for translating text. This function is now registerd in the global scope. xD
-        function _mooc($message) {
-            return dgettext('mooc', $message);
+        if (!function_exists('_mooc')) {
+            function _mooc($message) {
+                return dgettext('mooc', $message);
+            }
         }
 
         // adjust host system
@@ -47,6 +49,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
             PageLayout::addHeadElement('script', array(),
                     "$(function() { $('textarea[name=course_description], textarea[name=course_requirements]').addClass('add_toolbar'); });");
         }
+
     }
 
     public function getPluginname()
@@ -151,6 +154,10 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         require_once 'app/controllers/studip_controller.php';
         require_once 'app/controllers/authenticated_controller.php';
 
+        // load i18n only if plugin is un use
+        PageLayout::addHeadElement('script', array(),
+            "String.toLocaleString('".PluginEngine::getLink($this, array('cid' => null), "localization") ."');");
+
         $dispatcher = new Trails_Dispatcher(
             $this->getPluginPath(),
             rtrim(PluginEngine::getLink($this, array(), null), '/'),
@@ -229,7 +236,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
-            $overview_subnav = new Navigation(_mooc('Übersicht'), $overview_url);
+            $overview_subnav = new Navigation(_('Übersicht'), $overview_url);
             $overview_subnav->setImage(Assets::image_path('icons/16/white/seminar.png'));
             $overview_subnav->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
             $navigation->addSubnavigation("overview", $overview_subnav);
@@ -290,14 +297,14 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $cid = $this->getContext();
         $url = PluginEngine::getURL($this, compact('cid'), 'courses/show/' . $cid, true);
 
-        $navigation = new Navigation(_mooc('Übersicht'), $url);
+        $navigation = new Navigation(_('Übersicht'), $url);
         $navigation->setImage(Assets::image_path('icons/16/white/seminar.png'));
         $navigation->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
 
         $course = Course::find($cid);
         $sem_class = self::getMoocSemClass();
 
-        $navigation->addSubNavigation('overview', new Navigation(_mooc('Übersicht'), $url));
+        $navigation->addSubNavigation('overview', new Navigation(_('Übersicht'), $url));
 
         if (!$course->admission_binding && !$this->container['current_user']->hasPerm($cid, 'tutor')
                 && $this->container['current_user_id'] != 'nobody') {

@@ -1,3 +1,4 @@
+# #-#-#-#-#  mooc.pot (PACKAGE VERSION)  #-#-#-#-#
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
@@ -6,6 +7,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
+"#-#-#-#-#  js.pot (PACKAGE VERSION)  #-#-#-#-#\n"
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-29 11:50+0200\n"
@@ -17,27 +19,27 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Mooc.php:143
+#: Mooc.php:146
 msgid "Mooc.IP-Kurse"
 msgstr ""
 
-#: Mooc.php:232 Mooc.php:293 Mooc.php:300
+#: Mooc.php:239 Mooc.php:300 Mooc.php:307
 msgid "Übersicht"
 msgstr ""
 
-#: Mooc.php:239
+#: Mooc.php:246
 msgid "MOOCs"
 msgstr ""
 
-#: Mooc.php:240
+#: Mooc.php:247
 msgid "Alle Kurse"
 msgstr ""
 
-#: Mooc.php:304
+#: Mooc.php:311
 msgid "Austragen aus der Veranstaltung"
 msgstr ""
 
-#: Mooc.php:312
+#: Mooc.php:319
 msgid "Administration dieser Veranstaltung"
 msgstr ""
 
