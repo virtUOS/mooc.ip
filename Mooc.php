@@ -5,6 +5,10 @@ require_once __DIR__.'/vendor/autoload.php';
 use Mooc\Container;
 use Mooc\User;
 
+function _mooc($message) {
+    return dgettext('mooc', $message);
+}
+
 /**
  * MoocIP.class.php
  *
