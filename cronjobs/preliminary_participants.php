@@ -6,6 +6,7 @@
 * @access public
 */
 require_once 'lib/classes/CronJob.class.php';
+require_once __DIR__.'../Mooc.php';
 
 class PreliminarParticipants extends CronJob
 {
