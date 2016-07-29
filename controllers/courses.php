@@ -38,6 +38,7 @@ class CoursesController extends MoocipController {
         foreach ($this->courses as $course) {
             /** @var \DataFieldEntry[] $localEntries */
             $localEntries = DataFieldEntry::getDataFieldEntries($course->seminar_id);
+
             foreach ($localEntries as $entry) {
                 /** @var \DataFieldStructure $structure */
                 $accessor = null; // tmp variable to handle access
@@ -49,7 +50,8 @@ class CoursesController extends MoocipController {
                     // new version, accessAllowed is part of datafield
                     $accessor = $entry->model;
                 }
-                if ($accessor->accessAllowed()) {
+
+                if ($accessor->accessAllowed($GLOBALS['perm'])) {               // for backwards compatibilty, we need to pass the perm object
                     if ($entry->getValue()) {
                         foreach ($this->plugin->getDataFields() as $field => $id) {
                             if ($field != 'preview_image') {
@@ -119,6 +121,7 @@ class CoursesController extends MoocipController {
         $this->course = Course::find($cid);
         /** @var \DataFieldEntry[] $localEntries */
         $localEntries = DataFieldEntry::getDataFieldEntries($cid);
+
         foreach ($localEntries as $entry) {
             /** @var \DataFieldStructure $structure */
             $accessor = null; // tmp variable to handle access
@@ -130,7 +133,8 @@ class CoursesController extends MoocipController {
                 // new version, accessAllowed is part of datafield
                 $accessor = $entry->model;
             }
-            if ($accessor->accessAllowed()) {
+
+            if ($accessor->accessAllowed($GLOBALS['perm'])) {                   // for backwards compatibilty, we need to pass the perm object
                 if ($entry->getValue()) {
                     foreach ($this->plugin->getDataFields() as $field => $id) {
                         if ($entry->getId() == $id) {
