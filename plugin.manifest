@@ -4,3 +4,4 @@ origin=virtUOS
 version=2.0.1
 homepage=https://github.com/virtuos/mooc.ip
 studipMinVersion=3.0
+studipMaxVersion=3.4.99
