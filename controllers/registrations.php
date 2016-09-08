@@ -291,23 +291,24 @@ class RegistrationsController extends MoocipController {
     {
         $course = new Course($cid);
 
-        if ($course->admission_prelim) {
-            $new = new AdmissionApplication(array($user->id,  $cid));
+        if (!$course->getParticipantStatus($user->id)){
+            if ($course->admission_prelim) {
+                $new = new AdmissionApplication(array($user->id,  $cid));
 
-            if ($new->isNew()) {
-                $new->status = 'accepted';
-                $new->store();
-            }
-        } else {
-            $new = new CourseMember(array($cid, $user->id));
+                if ($new->isNew()) {
+                    $new->status = 'accepted';
+                    $new->store();
+                }
+            } else {
+                $new = new CourseMember(array($cid, $user->id));
 
-            if ($new->isNew()) {
-                $new->status = 'autor';
-                $new->label = '';
-                $new->store();
+                if ($new->isNew()) {
+                    $new->status = 'autor';
+                    $new->label = '';
+                    $new->store();
+                }
             }
         }
-
         return $course;
     }
 
