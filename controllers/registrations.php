@@ -354,7 +354,7 @@ class RegistrationsController extends MoocipController {
                     $fieldName = $fieldNameMap[$fieldName];
                     $fieldType = 'text';
                 } elseif ($this->isDataFieldFormField($fieldName)) {
-                    $dataField = new \Datafield($fieldName);
+                    $dataField = new \DataField($fieldName);
                     $fieldType = $dataField->type;
 
                     if ($dataField->type === 'selectbox') {
