@@ -14,6 +14,10 @@
                 <p class=subtitle><?= htmlReady($untertitel) ?></p>
             <? endif ?>
 
+            <? if ($data['datafields']['start']) : ?>
+                <div class=duration>Start: <?= $data['datafields']['start'] ?></div>
+            <? endif ?>
+            
             <? if ($data['datafields']['duration']) : ?>
                 <div class=duration>Dauer: <?= $data['datafields']['duration'] ?></div>
             <? endif ?>
