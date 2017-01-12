@@ -219,11 +219,10 @@ class RegistrationsController extends MoocipController {
                 continue;
             }
 
-            $dataField = new DataFieldStructure(array('datafield_id' => $fieldName));
-            $dataField->load();
+            $dataField = DataField::find($fieldName);
 
-            if ($dataField->data !== false) {
-                $entry = new DataFieldTextlineEntry($dataField, $user->getId(), $value);
+            if ($dataField) {
+                $entry = DataFieldEntry::createDataFieldEntry($dataField, $user->getId(), $value);
                 $entry->store();
             }
         }
