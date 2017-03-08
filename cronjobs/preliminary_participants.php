@@ -23,9 +23,9 @@ class PreliminarParticipants extends CronJob
     public function execute($last_result, $parameters = array())
     {
         $db = DBManager::get();
-
+        $status = Config::getInstance()->MOOC_SEM_CLASS_CONFIG_ID;
         // get all courses with preliminary access
-        $res = $db->query("SELECT seminar_id FROM seminare WHERE admission_prelim = 1");
+        $res = $db->query("SELECT seminar_id FROM seminare WHERE admission_prelim = 1 AND status = ".  $status);
 
         while ($seminar_id = $res->fetchColumn()) {
             $course = Course::find($seminar_id);
