@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+2.0.2
+-----
+* cronjob bug fixes
+
 2.0.1
 -----
 * Datafields are now access-checked and displayed correctly. An additional problem in Stud.IP 3.3 needed to be adressed. Make sure you install the most recent Security-Release!
