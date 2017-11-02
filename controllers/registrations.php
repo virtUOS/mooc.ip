@@ -134,8 +134,6 @@ class RegistrationsController extends MoocipController {
         $this->userInput = array();
         $filledRequiredFields = true;
         $email_restriction = Config::get()->EMAIL_DOMAIN_RESTRICTION;
-        var_dump(explode(',', $email_restriction));
-        var_dump($email_restriction);
 
         foreach ($this->fields as $field) {
             // string "fields" are free text that is displayed as is and
@@ -149,7 +147,7 @@ class RegistrationsController extends MoocipController {
             $this->userInput[$fieldName] = $fieldValue;
             
             if ($fieldName == 'mail' ){
-                if (in_array(explode('@', $fieldValue)[1], explode(',', $email_restriction))){
+                if(file_get_contents('https://www.mogelmail.de/q/' . explode('@', $fieldValue)[1]) == '1'){
                     $this->flash['error']  = _mooc('Bitte keine einmal-eMail-Adressen verwenden!');
                     return;
                 }
