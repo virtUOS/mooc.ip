@@ -25,7 +25,7 @@ class RegistrationsController extends MoocipController {
     }
 
     public function new_action()
-    {
+    {        
         if (Navigation::hasItem('/mooc/registrations')) {
             Navigation::activateItem("/mooc/registrations");
         }
@@ -133,6 +133,9 @@ class RegistrationsController extends MoocipController {
     {
         $this->userInput = array();
         $filledRequiredFields = true;
+        $email_restriction = Config::get()->EMAIL_DOMAIN_RESTRICTION;
+        var_dump(explode(',', $email_restriction));
+        var_dump($email_restriction);
 
         foreach ($this->fields as $field) {
             // string "fields" are free text that is displayed as is and
@@ -144,6 +147,13 @@ class RegistrationsController extends MoocipController {
             $fieldName = $field['fieldName'];
             $fieldValue = Request::get($fieldName);
             $this->userInput[$fieldName] = $fieldValue;
+            
+            if ($fieldName == 'mail' ){
+                if (in_array(explode('@', $fieldValue)[1], explode(',', $email_restriction))){
+                    $this->flash['error']  = _mooc('Bitte keine einmal-eMail-Adressen verwenden!');
+                    return;
+                }
+            }
 
             if ($field['required'] && (trim($fieldValue) === '')) {
                 $filledRequiredFields = false;
