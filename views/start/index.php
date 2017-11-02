@@ -1,3 +1,4 @@
+<? if($GLOBALS['user']->id && $GLOBALS['user']->id != 'nobody'): ?>
 <section id="mooc-course-list">
 <? foreach ($courses as $data) : ?>
     <article data-cid="<?= $data['course']->id ?>">
@@ -23,7 +24,7 @@
 
 
             <div class="controls">
-                <?= \Studip\LinkButton::create(_('Kurs anzeigen'),
+                <?= \Studip\LinkButton::create(_mooc('Kurs anzeigen'),
                                                PluginEngine::getLink($plugin,
                                                                      array('cid' => $data['course']->id),
                                                                      'courses/show/'.$data['course']->id,
@@ -32,7 +33,7 @@
                 <a class="kill"
                    href="<?= \URLHelper::getLink("dispatch.php/my_courses/decline/{$data['course']->id}",
                                                  array(), true)  ?>">
-                    <?= _("Mitgliedschaft beenden") ?>
+                    <?= _mooc("Mitgliedschaft beenden") ?>
                 </a>
             </div>
         </div>
@@ -42,6 +43,7 @@
 
 
 <? /* TODO: DRY!!! */ ?>
+<? if ($prelim_courses): ?>
 <? foreach ($prelim_courses as $data) : ?>
     <article data-cid="<?= $data['course']->id ?>">
         <img class="course-avatar-medium course-<?= $data['course']->id ?>"
@@ -62,7 +64,7 @@
 
 
             <div class="controls">
-                <?= \Studip\LinkButton::create(_('Kurs anzeigen'),
+                <?= \Studip\LinkButton::create(_mooc('Kurs anzeigen'),
                                                PluginEngine::getLink($plugin,
                                                                      array(),
                                                                      'courses/show/'.$data['course']->id,
@@ -71,19 +73,21 @@
                 <a class="kill"
                    href="<?= \URLHelper::getLink("dispatch.php/my_courses/decline/{$data['course']->id}",
                                                  array(), true)  ?>">
-                    <?= _("Mitgliedschaft beenden") ?>
+                    <?= _mooc("Mitgliedschaft beenden") ?>
                 </a>
             </div>
         </div>
 
     </article>
 <? endforeach ?>
+<? endif ?>
 
   <div class="empty">
-    <p><?= _("Sie sind noch in keinem Mooc-Kurs eingetragen. ") ?></p>
+    <p><?= _mooc("Sie sind noch in keinem Mooc-Kurs eingetragen. ") ?></p>
   </div>
 
 </section>
 
 <?= \Studip\LinkButton::createEnroll('Für weiteren Kurs registrieren',
                                PluginEngine::getURL($plugin, array('cid' => null), 'courses/index')) ?>
+<? endif ?>

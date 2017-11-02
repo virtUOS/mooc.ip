@@ -1,12 +1,9 @@
 <?php
 
-use Mooc\UI\Block;
-use Mooc\UI\Courseware\Courseware;
-use Mooc\UI\VideoBlock\VideoBlock;
+use Mooc\VideoHelper;
 
 /**
  * @property \Request   $context
- * @property Courseware $courseware
  * @property \Course[]  $courses
  * @property \Course    $course
  * @property Block      $ui_block
@@ -29,6 +26,9 @@ class CoursesController extends MoocipController {
     {
         // get rid of the currently selected course
         closeObject();
+        header("Location: https://ohn-kursportal.de");
+        die();
+        /**
 
         if (Navigation::hasItem('/mooc/all')) {
             Navigation::activateItem('/mooc/all');
@@ -37,25 +37,35 @@ class CoursesController extends MoocipController {
         $sem_class = \Mooc\SemClass::getMoocSemClass();
         $this->courses = $sem_class->getCourses();
         $this->preview_images = array();
-        
-        usort($this->courses, function($a, $b) {
-	    try{
-	    $fieldsb = DataFieldEntry::getDataFieldEntries($b->seminar_id);
-	    $fieldsa = DataFieldEntry::getDataFieldEntries($a->seminar_id);
-	    $valueb = $fieldsb['25890c68a68d310baad033125b89f938']->value;
-	    $valuea = $fieldsa['25890c68a68d310baad033125b89f938']->value;
-	    $result = strtotime($valueb) - strtotime($valuea);
-	    return $result;
-	    } catch (Exception $e) {return '0'; };
-	});
 
         foreach ($this->courses as $course) {
-            /** @var \DataFieldEntry[] $localEntries */
+            /** @var \DataFieldEntry[] $localEntries 
             $localEntries = DataFieldEntry::getDataFieldEntries($course->seminar_id);
+
+            usort($this->courses, function($a, $b) {
+                try{
+                $fieldsb = DataFieldEntry::getDataFieldEntries($b->seminar_id);
+                $fieldsa = DataFieldEntry::getDataFieldEntries($a->seminar_id);
+                $valueb = $fieldsb['25890c68a68d310baad033125b89f938']->value;
+                $valuea = $fieldsa['25890c68a68d310baad033125b89f938']->value;
+                $result = strtotime($valueb) - strtotime($valuea);
+                return $result;
+                } catch (Exception $e) {return '0'; };
+            });
+            
             foreach ($localEntries as $entry) {
-                /** @var \DataFieldStructure $structure */
+                /** @var \DataFieldStructure $structure 
+                $accessor = null; // tmp variable to handle access
                 $structure = $entry->structure;
-                if ($structure->accessAllowed($GLOBALS['perm'])) {
+                if($structure){
+                    //old version, structure is needed
+                    $accessor = $structure;
+                } else {
+                    // new version, accessAllowed is part of datafield
+                    $accessor = $entry->model;
+                }
+
+                if ($accessor->accessAllowed($GLOBALS['perm'])) {               // for backwards compatibilty, we need to pass the perm object
                     if ($entry->getValue()) {
                         foreach ($this->plugin->getDataFields() as $field => $id) {
                             if ($field != 'preview_image') {
@@ -69,7 +79,7 @@ class CoursesController extends MoocipController {
                     }
                 }
             }
-        }
+        }*/
     }
 
     public function overview_action($edit = false)
@@ -77,15 +87,9 @@ class CoursesController extends MoocipController {
         if (Navigation::hasItem('/mooc/overview')) {
             Navigation::activateItem('/mooc/overview');
         }
+        PageLayout::setTitle(Config::get()->getValue(Mooc\PLUGIN_DISPLAY_NAME_ID));
 
-        $block = current(\Mooc\DB\Block::findBySQL('seminar_id IS NULL AND parent_id IS NULL'));
-
-        if (!$block) {
-            $block = \Mooc\DB\Block::create(array('type' => 'HtmlBlock', 'seminar_id' => '', 'title' => 'LandingPage'));
-        }
-
-        $this->ui_block = $this->plugin->getBlockFactory()->makeBlock($block);
-        $this->data     = $this->ui_block->getFields();
+        $this->data      = Config::get()->getValue(Mooc\OVERVIEW_CONTENT);
         $this->context  = clone Request::getInstance();
         $this->view     = 'student';
         $this->root     = $this->plugin->getCurrentUser()->getPerm() == 'root';
@@ -105,14 +109,7 @@ class CoursesController extends MoocipController {
             throw new AccessDeniedException('You need to be root to edit the overview-page');
         }
 
-        $block = current(\Mooc\DB\Block::findBySQL('seminar_id IS NULL AND parent_id IS NULL'));
-
-        if (!$block) {
-            $block = \Mooc\DB\Block::create(array('type' => 'HtmlBlock'));
-        }
-
-        $ui_block = $this->plugin->getBlockFactory()->makeBlock($block);
-        $ui_block->handle('save', array('content' => Request::get('content')), false);
+        Config::get()->store(Mooc\OVERVIEW_CONTENT, Request::get('content'));
 
         $this->redirect('courses/overview');
     }
@@ -121,6 +118,11 @@ class CoursesController extends MoocipController {
     {
         if (strlen($cid) !== 32) {
             throw new Trails_Exception(400);
+        }
+
+        if ($cid !== $_SESSION['SessionSeminar'] && $GLOBALS['perm']->have_studip_perm('user', $cid)) {
+            header('Location: ' . URLHelper::getURL('', compact('cid')));
+            return;
         }
 
         if ($GLOBALS['SessionSeminar'] && Navigation::hasItem('/course/mooc_overview/overview')) {
@@ -136,14 +138,23 @@ class CoursesController extends MoocipController {
             $this->preliminary = true;
         }
 
-        $this->courseware = \Mooc\DB\Block::findCourseware($cid);
         $this->course = Course::find($cid);
         /** @var \DataFieldEntry[] $localEntries */
         $localEntries = DataFieldEntry::getDataFieldEntries($cid);
+
         foreach ($localEntries as $entry) {
             /** @var \DataFieldStructure $structure */
+            $accessor = null; // tmp variable to handle access
             $structure = $entry->structure;
-            if ($structure->accessAllowed($GLOBALS['perm'])) {
+            if($structure){
+                //old version, structure is needed
+                $accessor = $structure;
+            } else {
+                // new version, accessAllowed is part of datafield
+                $accessor = $entry->model;
+            }
+
+            if ($accessor->accessAllowed($GLOBALS['perm'])) {                   // for backwards compatibilty, we need to pass the perm object
                 if ($entry->getValue()) {
                     foreach ($this->plugin->getDataFields() as $field => $id) {
                         if ($entry->getId() == $id) {
@@ -154,8 +165,8 @@ class CoursesController extends MoocipController {
             }
         }
 
-        if ($this->preview_image === null && preg_match(VideoBlock::YOUTUBE_PATTERN, $this->preview_video)) {
-            $this->preview_video = VideoBlock::cleanUpYouTubeUrl($this->preview_video);
+        if ($this->preview_image === null && preg_match(VideoHelper::YOUTUBE_PATTERN, $this->preview_video)) {
+            $this->preview_video = VideoHelper::cleanUpYouTubeUrl($this->preview_video);
             $this->preview_image = '//img.youtube.com/vi/'.basename($this->preview_video).'/0.jpg';
         }
     }
@@ -175,14 +186,14 @@ class CoursesController extends MoocipController {
                 $data['description'] = formatLinks($lockdata['description']);
             }
 
-            return $this->json_error(_('Das Abonnement der Veranstaltung kann nicht aufgehoben werden.'), 403, $data);
+            return $this->json_error(_mooc('Das Abonnement der Veranstaltung kann nicht aufgehoben werden.'), 403, $data);
         }
 
         $old_school = new Seminar($course);
         $status = $old_school->deleteMember($user_id);
 
         if (!$status) {
-            return $this->json_error(_('Das Abonnement der Veranstaltung konnte nicht aufgehoben werden.'), 400);
+            return $this->json_error(_mooc('Das Abonnement der Veranstaltung konnte nicht aufgehoben werden.'), 400);
         }
         $this->render_json(array('status' => 'success'));
     }

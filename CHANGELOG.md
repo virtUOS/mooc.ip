@@ -1,6 +1,17 @@
 CHANGELOG
 =========
 
+2.0.1
+-----
+* Datafields are now access-checked and displayed correctly. An additional problem in Stud.IP 3.3 needed to be adressed. Make sure you install the most recent Security-Release!
+
+2.0.0
+-----
+* Complete rework and split into Courseware and OpenCourses. This is OpenCourses now.
+
+1.0.4
+-----
+
 * it's not possible any more to show tests that don't belong to the course
   being shown
 * pass the right context when accessing a course from the course list

@@ -147,7 +147,7 @@ class MoocipController extends StudipController {
                ? $_SESSION['SessSemName']['header_line'] . ' - '
                : '';
 
-        $title .= $this->container['plugin_display_name'];
+        $title .= _mooc('Mooc.IP');
 
         \PageLayout::setTitle($title);
     }

@@ -24,19 +24,19 @@ endif;
 ?>
 
 <? if ($preliminary) : ?>
-    <?= MessageBox::info(_('Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!')) ?>
+    <?= MessageBox::info(_mooc('Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!')) ?>
 <? endif ?>
 
 <h1><?= htmlReady($course->name) ?></h1>
 <p class=subtitle><?= htmlReady($course->untertitel) ?></p>
 
 <article class=requirements>
-  <h1>Voraussetzungen</h1>
+  <h1><?= _mooc('Voraussetzungen') ?></h1>
   <p><?= formatReady($course->vorrausetzungen) ?></p>
 </article>
 
 <article class=description>
-  <h1>Kursbeschreibung</h1>
+  <h1><?= _mooc('Kursbeschreibung') ?></h1>
   <p><?= formatReady($course->beschreibung) ?></p>
 </article>
 

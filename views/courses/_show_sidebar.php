@@ -22,6 +22,8 @@ $perm = $GLOBALS['perm'];
 
     <div>
         <?php
+        $endAdmission = strtotime("+1 day", strtotime("now"));
+        
         if ($start):
             echo 'Start: '.strftime('%x', strtotime($start));
             $endAdmission = strtotime("+1 week 1 day", strtotime($start));

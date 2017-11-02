@@ -41,7 +41,7 @@ class RegistrationsController extends MoocipController {
         $this->fields = $this->parseRegistrationFormFields();
 
         if (!Request::option('accept_tos')) {
-            $this->flash['error'] = _('Sie müssen die Nutzungsbedingungen akzeptieren!');
+            $this->flash['error'] = _mooc('Sie müssen die Nutzungsbedingungen akzeptieren!');
             return;
         }
 
@@ -83,7 +83,7 @@ class RegistrationsController extends MoocipController {
 
         if ($_SESSION['mooc']['register']['username'] == $user->username) {
             $this->sendMail($course, $user->username, $_SESSION['mooc']['register']['password']);
-            $this->render_json(array('message' => _('Die Bestätigungsmail wurde erfolgreich erneut versendet!')));
+            $this->render_json(array('message' => _mooc('Die Bestätigungsmail wurde erfolgreich erneut versendet!')));
         } else {
             throw new Trails_Exception(400, 'Invalid session');
         }
@@ -151,7 +151,7 @@ class RegistrationsController extends MoocipController {
         }
 
         if (!$filledRequiredFields) {
-            $this->flash['error'] = _('Sie müssen alle Pflichtfelder ausfüllen!');
+            $this->flash['error'] = _mooc('Sie müssen alle Pflichtfelder ausfüllen!');
 
             return;
         }
@@ -178,7 +178,7 @@ class RegistrationsController extends MoocipController {
         // TODO: check if mail adress is valid, use Stud.IP-API if possible
         $mail = Request::get('mail');
         if (\User::findByUsername($mail)) {
-            throw new Exception(_('Es gibt bereits einen Nutzer mit dieser E-Mail-Adresse!'));
+            throw new Exception(_mooc('Es gibt bereits einen Nutzer mit dieser E-Mail-Adresse!'));
         }
 
         // add user to database
@@ -219,11 +219,10 @@ class RegistrationsController extends MoocipController {
                 continue;
             }
 
-            $dataField = new DataFieldStructure(array('datafield_id' => $fieldName));
-            $dataField->load();
+            $dataField = DataField::find($fieldName);
 
-            if ($dataField->data !== false) {
-                $entry = new DataFieldTextlineEntry($dataField, $user->getId(), $value);
+            if ($dataField) {
+                $entry = DataFieldEntry::createDataFieldEntry($dataField, $user->getId(), $value);
                 $entry->store();
             }
         }
@@ -238,13 +237,13 @@ class RegistrationsController extends MoocipController {
 
         // send mail with password to user
         $mail_msg = sprintf(
-            _("Ihre Zugangsdaten für den MOOC-Kurs '%s':\n\n"
+            _mooc("Ihre Zugangsdaten für den MOOC-Kurs '%s':\n\n"
             . "Benutzername: %s \n"
             . "Passwort: %s \n\n"
             . "Hier kommen Sie direkt zum Kurs:\n %s"),
             $course->name, $mail, $password, $link
         );
-        StudipMail::sendMessage($mail, sprintf(_('Zugang zum MOOC-Kurs "%s"'), $course->name), $mail_msg);
+        StudipMail::sendMessage($mail, sprintf(_mooc('Zugang zum MOOC-Kurs "%s"'), $course->name), $mail_msg);
     }
 
     private function loginUser()
@@ -309,6 +308,7 @@ class RegistrationsController extends MoocipController {
                 }
             }
         }
+
         return $course;
     }
 
@@ -355,7 +355,7 @@ class RegistrationsController extends MoocipController {
                     $fieldName = $fieldNameMap[$fieldName];
                     $fieldType = 'text';
                 } elseif ($this->isDataFieldFormField($fieldName)) {
-                    $dataField = new \Datafield($fieldName);
+                    $dataField = new \DataField($fieldName);
                     $fieldType = $dataField->type;
 
                     if ($dataField->type === 'selectbox') {
@@ -368,9 +368,9 @@ class RegistrationsController extends MoocipController {
 
                 if ($fieldName === 'geschlecht') {
                     $choices = array(
-                        _('unbekannt'),
-                        _('männlich'),
-                        _('weiblich'),
+                        _mooc('unbekannt'),
+                        _mooc('männlich'),
+                        _mooc('weiblich'),
                     );
                 }
 

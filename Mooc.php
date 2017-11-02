@@ -3,9 +3,11 @@
 require_once __DIR__.'/vendor/autoload.php';
 
 use Mooc\Container;
-use Mooc\DB\CoursewareFactory;
-use Mooc\UI\BlockFactory;
 use Mooc\User;
+
+function _mooc($message) {
+    return dgettext('mooc', $message);
+}
 
 /**
  * MoocIP.class.php
@@ -25,6 +27,16 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     public function __construct() {
         parent::__construct();
 
+        // set text-domain for translations in this plugin
+        bindtextdomain('mooc', dirname(__FILE__) . '/locale');
+
+        // define a short-hand function for translating text. This function is now registerd in the global scope. xD
+        if (!function_exists('_mooc')) {
+            function _mooc($message) {
+                return dgettext('mooc', $message);
+            }
+        }
+
         // adjust host system
         $this->setupCompatibility();
 
@@ -42,8 +54,11 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
                     "$(function() { $('textarea[name=course_description], textarea[name=course_requirements]').addClass('add_toolbar'); });");
         }
 
-        // markup for link element to courseware
-        StudipFormat::addStudipMarkup('courseware', '\[(mooc-forumblock):([0-9]{1,32})\]', NULL, 'Mooc::markupForumLink');
+    }
+
+    public function getPluginname()
+    {
+        return 'MOOC.IP - Open Courses';
     }
 
     // bei Aufruf des Plugins über plugin.php/mooc/...
@@ -62,16 +77,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         if ($this->isSlotModule()) {
             $tabs['mooc_overview']   = $this->getOverviewNavigation();
-            $tabs['mooc_courseware'] = $this->getCoursewareNavigation();
-        }
-
-        else {
-            $tabs['mooc_courseware'] = $this->getCoursewareNavigation();
-        }
-
-        if (!$this->container['current_user']->hasPerm($course_id, 'dozent')) {
-            $progress_url = PluginEngine::getURL($this, compact('cid'), 'progress', true);
-            $tabs['mooc_progress'] = new Navigation(_('Fortschrittsübersicht'), $progress_url);
         }
 
         return $tabs;
@@ -124,7 +129,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
                     }
                     return $memo;
                 }, array());
-                
+
                 if (in_array($course->id, $my_admissions) !== false) {
                     $prelim_courses[$course->id] = compact('course', 'datafields');
                 } else {
@@ -134,7 +139,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         }
         
         usort($courses, function($a, $b) {
-    	    return strtotime($a['datafields']['start']) - strtotime($b['datafields']['start']);
+    	    return strtotime($b['datafields']['start']) - strtotime($a['datafields']['start']);
 	});
 
         PageLayout::addStylesheet($this->getPluginURL().'/assets/start.css');
@@ -146,7 +151,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $template->courses = $courses;
         $template->prelim_courses = $prelim_courses;
         $template->preview_images = $preview_images;
-        $template->title = _('Mooc.IP-Kurse');
+        $template->title = _mooc('Mooc.IP-Kurse');
 
         return $template;
     }
@@ -156,6 +161,10 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         require_once 'vendor/trails/trails.php';
         require_once 'app/controllers/studip_controller.php';
         require_once 'app/controllers/authenticated_controller.php';
+
+        // load i18n only if plugin is un use
+        PageLayout::addHeadElement('script', array(),
+            "String.toLocaleString('".PluginEngine::getLink($this, array('cid' => null), "localization") ."');");
 
         $dispatcher = new Trails_Dispatcher(
             $this->getPluginPath(),
@@ -188,22 +197,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     public function getCourseId()
     {
         return $this->container['cid'];
-    }
-
-    /**
-     * @return CoursewareFactory
-     */
-    public function getCoursewareFactory()
-    {
-        return $this->container['courseware_factory'];
-    }
-
-    /**
-     * @return BlockFactory
-     */
-    public function getBlockFactory()
-    {
-        return $this->container['block_factory'];
     }
 
     /**
@@ -258,8 +251,8 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
             $navigation->addSubnavigation('registrations', $this->getRegistrationsNavigation());
         } else {
-            #$navigation->addSubnavigation("overview", new Navigation(_('MOOCs'), $url_overview));
-            #$navigation->addSubnavigation("all", new Navigation(_('Alle Kurse'), $url_courses));
+            #$navigation->addSubnavigation("overview", new Navigation(_mooc('MOOCs'), $url_overview));
+            #$navigation->addSubnavigation("all", new Navigation(_mooc('Alle Kurse'), $url_courses));
         }
 
         Navigation::addItem('/mooc', $navigation);
@@ -286,14 +279,8 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $courseNavigation = Navigation::getItem('/course');
         $it = $courseNavigation->getIterator();
 
-        Navigation::insertItem('/course/mooc_courseware', $this->getCoursewareNavigation(), $it->count() === 0 ? null : $it->key());
-
-        if (Navigation::hasItem('/course/mooc_courseware/index')) {
-            Navigation::activateItem('/course/mooc_courseware/index');
-        } elseif (Navigation::hasItem('/course/main')) {
+        if (Navigation::hasItem('/course/main')) {
             Navigation::activateItem('/course/main');
-        } else {
-            Navigation::activateItem('/course/mooc_courseware');
         }
     }
 
@@ -327,16 +314,17 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         $navigation->addSubNavigation('overview', new Navigation(_('Übersicht'), $url));
 
-        if ($this->container['current_user']->hasPerm($cid, 'admin')
-                && !$sem_class['studygroup_mode']
-                && ($sem_class->getSlotModule("admin"))) {
-            $navigation->addSubNavigation('admin', new Navigation(_('Administration dieser Veranstaltung'), 'adminarea_start.php?new_sem=TRUE'));
-        }
-
         if (!$course->admission_binding && !$this->container['current_user']->hasPerm($cid, 'tutor')
                 && $this->container['current_user_id'] != 'nobody') {
-            $navigation->addSubNavigation('leave', new Navigation(_('Austragen aus der Veranstaltung'),
+            $navigation->addSubNavigation('leave', new Navigation(_mooc('Austragen aus der Veranstaltung'),
                     'meine_seminare.php?auswahl='. $cid .'&cmd=suppose_to_kill'));
+        }
+
+        if ($this->container['version']->olderThan(3.3)
+                && $this->container['current_user']->hasPerm($cid, 'admin')
+                && !$sem_class['studygroup_mode']
+                && ($sem_class->getSlotModule("admin"))) {
+            $navigation->addSubNavigation('admin', new Navigation(_mooc('Administration dieser Veranstaltung'), 'adminarea_start.php?new_sem=TRUE'));
         }
 
         return $navigation;
@@ -354,18 +342,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         return $navigation;
     }
 
-    private function getCoursewareNavigation()
-    {
-        $cid = $this->getContext();
-        $url = PluginEngine::getURL($this, compact('cid'), 'courseware', true);
-
-        $navigation = new Navigation(_('Courseware'), $url);
-        $navigation->setImage('icons/16/white/group3.png');
-        $navigation->setActiveImage('icons/16/black/group3.png');
-
-        return $navigation;
-    }
-
     static function onEnable($id)
     {
         // enable nobody role by default
@@ -376,7 +352,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
     static function onDisable($id)
     {
-        self::removeMoocFromOverviewSlot();
+        $res = self::removeMoocFromOverviewSlot();
     }
 
     const OVERVIEW_SLOT = 'overview';
@@ -385,6 +361,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     {
         $sem_class = self::getMoocSemClass();
         $sem_class->setSlotModule(self::OVERVIEW_SLOT, __CLASS__);
+
         $sem_class->store();
     }
 
@@ -413,18 +390,5 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         if (!class_exists('\\Metrics')) {
             require_once __DIR__ . '/models/Metrics.v3_0.php';
         }
-    }
-
-    /* * * * * * * * * * * * * * * * * * * * * * * *
-     * * * * *   F O R U M   M A R K U P   * * * * *
-     * * * * * * * * * * * * * * * * * * * * * * * */
-
-    static function markupForumLink($markup, $matches, $contents)
-    {
-        // create a widget for given id (md5 hash - ensured by markup regex)
-        return '<span class="mooc-forumblock">'
-            . '<a href="'. PluginEngine::getLink('mooc' , array('selected' => $matches[2]), 'courseware') .'">'
-            . _('Zurück zur Courseware')
-            . '</a></span>';
     }
 }

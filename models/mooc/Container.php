@@ -15,11 +15,9 @@ class Container extends \Pimple
         parent::__construct();
 
         $this['plugin'] = $plugin;
-        $this['plugin_display_name'] = \Config::get()->getValue(\Mooc\PLUGIN_DISPLAY_NAME_ID);
 
         $this->setupEnv();
         $this->setupBlockStuff();
-        $this->setupCoursewareStuff();
     }
 
     private function setupEnv()
@@ -35,6 +33,7 @@ class Container extends \Pimple
             return $user;
         };
 
+        $this['version'] = new Version();
 
         $this['cid'] = \Request::option('cid') ?: $GLOBALS['SessionSeminar'];
 
@@ -47,18 +46,6 @@ class Container extends \Pimple
         );
     }
 
-
-    private function setupCoursewareStuff()
-    {
-        $this['courseware_factory'] = function ($c) {
-            return new CoursewareFactory($c);
-        };
-
-        $this['current_courseware'] = function ($c) {
-            $courseware_model = $c['courseware_factory']->makeCourseware($c['cid']);
-            return $c['block_factory']->makeBlock($courseware_model);
-        };
-    }
 
     private function setupBlockStuff()
     {
@@ -79,7 +66,7 @@ class Container extends \Pimple
         $c = $this;
         return array(
 
-            'i18n' => function ($text) { return _($text); },
+            'i18n' => function ($text) { return _mooc($text); },
 
             'plugin_url' => function ($text, $helper) use ($c) {
                 return \PluginEngine::getURL($c['plugin'], array(), $helper->render($text));
