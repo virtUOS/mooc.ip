@@ -29,11 +29,15 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
                     *
                 <? endif ?>
             </label>
-            <? if (is_array($field['choices'])): ?>
+            <? if (is_array($field['choices']) && ($field['type'] == 'selectbox' || $field['type'] == 'text')): ?>
                 <select name="<?= $field['fieldName'] ?>" id="mooc_sign_up_<?= $field['fieldName'] ?>"<?= $field['required'] ? ' required' : '' ?>>
                     <option><?=_mooc('--')?></option>
+                    <? $sonstiges = false ?>
                     <? foreach ($field['choices'] as $choice): ?>
                         <? $choice = trim($choice) ?>
+                        <? if ($choice == 'sonstiges'){
+                            $sonstiges = true;
+                        } ?>
                         <option value="<?=htmlReady($choice)?>"<?=$userInput[$field['fieldName']] == $choice ? ' selected' : ''?>><?=htmlReady($choice)?></option>
                     <? endforeach ?>
                 </select>
@@ -44,6 +48,11 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
                 placeholder="<?= $field['label'] ?>"
                 cols="50"
                 rows="10"><?= htmlReady($userInput[$field['fieldName']]) ?></textarea>
+            <? elseif ($field['type'] === 'selectboxmultiple'): ?>
+                    <? foreach ($field['choices'] as $choice): ?>
+                        <? $choice = trim($choice) ?>
+                        <div style='text-indent: -65px; padding-left:55px; '><input style='width:10%;' name="<?= $field['fieldName'] ?>[]" type="checkbox" value="<?=htmlReady($choice)?>"<?=$userInput[$field['fieldName']] == $choice ? ' selected' : ''?>/><?=htmlReady($choice)?></div>
+                        <? endforeach ?>
             <? else: ?>
             <input type="text"
                 name="<?= $field['fieldName'] ?>"

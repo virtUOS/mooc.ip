@@ -40,10 +40,12 @@ class RegistrationsController extends MoocipController {
         $this->course = Course::find($this->cid);
         $this->fields = $this->parseRegistrationFormFields();
 
+        /**
         if (!Request::option('accept_tos')) {
             $this->flash['error'] = _mooc('Sie müssen die Nutzungsbedingungen akzeptieren!');
             return;
         }
+         */
 
         switch (Request::get('type')) {
             default:
@@ -143,7 +145,15 @@ class RegistrationsController extends MoocipController {
             }
 
             $fieldName = $field['fieldName'];
-            $fieldValue = Request::get($fieldName);
+            
+            if($fieldName == 'd99127ecf0e9610b70cd7c19314c5926'){ /// 278744e59b610a0e2021601b1b577f1a'){ /lokales testsystem
+                $fieldValue = Request::get($fieldName);
+                $fieldValue = implode('|', $fieldValue);
+            } else {
+                $fieldValue = Request::get($fieldName);
+            }
+            
+            
             $this->userInput[$fieldName] = $fieldValue;
             
             if ($fieldName == 'mail' ){
@@ -223,6 +233,7 @@ class RegistrationsController extends MoocipController {
         );
 
         foreach ($additionalData as $fieldName => $value) {
+            
             if (!$this->isDataFieldFormField($fieldName)) {
                 continue;
             }
@@ -333,7 +344,7 @@ class RegistrationsController extends MoocipController {
             'email' => 'mail',
             'birthday' => 'geburtsdatum',
             'sex' => 'geschlecht',
-            'terms_of_service' => 'accept_tos',
+           // 'terms_of_service' => 'accept_tos',
         );
 
         foreach ($fields as $field) {
@@ -366,7 +377,7 @@ class RegistrationsController extends MoocipController {
                     $dataField = new \DataField($fieldName);
                     $fieldType = $dataField->type;
 
-                    if ($dataField->type === 'selectbox') {
+                    if ($dataField->type === 'selectbox' || $dataField->type === 'selectboxmultiple') {
                         $choices = explode("\n", $dataField->typeparam);
                     }
                 } elseif ($fieldName !== 'terms_of_service') {
