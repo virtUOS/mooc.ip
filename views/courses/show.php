@@ -42,7 +42,28 @@ endif;
   <p><?= formatReady($course->beschreibung) ?></p>
 </article>
 
+<?php
+        global $perm;
+        $endAdmission = strtotime("+1 day", strtotime("now"));
+        
+        if ($start):
+            echo 'Start: '.strftime('%x', strtotime($start));
+            $endAdmission = strtotime("+1 week 1 day", strtotime($start));
+        endif;
 
+        if ($duration):
+            echo '<br>';
+            echo 'Dauer: '.$duration.'<br>';
+        endif;
+
+        if ($hint):
+            echo formatReady($hint);
+        endif;
+        ?>
+        <br>
+        <? if (!$perm->have_studip_perm('autor', $course->id) && !$preliminary && ($endAdmission > strtotime("now"))): ?>
+        <?= \Studip\LinkButton::create("Zur Anmeldung", $controller->url_for('registrations/new', array('moocid' => $course->id))) ?>
+        <? endif ?>
 
 <div class=clear></div>
 
