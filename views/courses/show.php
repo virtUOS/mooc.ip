@@ -30,6 +30,8 @@ endif;
 <h1><?= htmlReady($course->name) ?></h1>
 <p class=subtitle><?= htmlReady($course->untertitel) ?></p>
 
+<!-- <iframe src="<?= $preview_video ?>"> </iframe> -->
+
 <article class=requirements>
   <h1><?= _mooc('Voraussetzungen') ?></h1>
   <p><?= formatReady($course->vorrausetzungen) ?></p>
