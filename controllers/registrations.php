@@ -181,8 +181,9 @@ class RegistrationsController extends MoocipController {
         }
 
         $this->registerUserWithCourse($user, $this->cid);
-
-        $this->redirect('registrations/show/'. $user->getId() .'?moocid=' . $this->cid);
+        //$this->redirect($this->url_for('courses/show/'. $this->cid .'?loginname='. $user->username));
+        $this->redirect(URLHelper::getURL('index.php', array('again' => 'yes', 'loginname' => $user->username)));
+        //$this->redirect('registrations/show/'. $user->getId() .'?moocid=' . $this->cid);
     }
 
     private function error($msg, $url)
@@ -252,14 +253,14 @@ class RegistrationsController extends MoocipController {
     private function sendMail($course, $mail, $password)
     {
         URLHelper::setBaseUrl($GLOBALS['ABSOLUTE_URI_STUDIP']);
-        $link = $this->url_for('courses/show/' . $course->id);
+        $link = 'https://ohn-kursportal.de/index.php?again=yes';//$this->url_for('courses/show/' . $course->id);
 
         // send mail with password to user
         $mail_msg = sprintf(
             _mooc("Ihre Zugangsdaten für den MOOC-Kurs '%s':\n\n"
             . "Benutzername: %s \n"
             . "Passwort: %s \n\n"
-            . "Hier kommen Sie direkt zum Kurs:\n %s"),
+            . "Loggen Sie sich mit Ihren Zugangsdaten hier ein:\n %s"),
             $course->name, $mail, $password, $link
         );
         StudipMail::sendMessage($mail, sprintf(_mooc('Zugang zum MOOC-Kurs "%s"'), $course->name), $mail_msg);
