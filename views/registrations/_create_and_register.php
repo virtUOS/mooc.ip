@@ -51,7 +51,7 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
             <? elseif ($field['type'] === 'selectboxmultiple'): ?>
                     <? foreach ($field['choices'] as $choice): ?>
                         <? $choice = trim($choice) ?>
-                        <div style='text-indent: -65px; padding-left:55px; '><input style='width:10%;' name="<?= $field['fieldName'] ?>[]" type="checkbox" value="<?=htmlReady($choice)?>"<?=$userInput[$field['fieldName']] == $choice ? ' selected' : ''?>/><?=htmlReady($choice)?></div>
+                        <div style='text-indent: -65px; padding-left:65px; '><input style='width:10%;' name="<?= $field['fieldName'] ?>[]" type="checkbox" value="<?=htmlReady($choice)?>"<?=$userInput[$field['fieldName']] == $choice ? ' selected' : ''?>/><?=htmlReady($choice)?></div>
                         <? endforeach ?>
             <? else: ?>
             <input type="text"
@@ -69,5 +69,5 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
 
     <input type="hidden" name="type" value="create">
     <input type="hidden" name="moocid" value="<?= htmlReady($cid) ?>">
-    <?= Studip\Button::create(_mooc('Jetzt anmelden')) ?>
+    <?= Studip\Button::create(_mooc('Jetzt Account erstellen und anmelden')) ?>
 </form>
