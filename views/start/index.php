@@ -88,6 +88,6 @@
 
 </section>
 
-<?= \Studip\LinkButton::createEnroll('Für weiteren Kurs registrieren',
+<?= \Studip\LinkButton::createEnroll('FÃ¼r weiteren Kurs registrieren',
                                PluginEngine::getURL($plugin, array('cid' => null), 'courses/index')) ?>
 <? endif ?>

@@ -2,7 +2,7 @@
 /**
  * 022_convert_overview_field.php
  *
- * @author Till Glöggler <tgloeggl@uos.de>
+ * @author Till GlÃ¶ggler <tgloeggl@uos.de>
  */
 
 require __DIR__.'/../vendor/autoload.php';
@@ -36,17 +36,17 @@ class ConvertOverviewField extends Migration
             'type'        => 'string',
             'range'       => 'global',
             'section'     => 'global',
-            'description' => 'Inhalt der Übersichtsseite für Mooc.IP'
+            'description' => 'Inhalt der Ãœbersichtsseite fÃ¼r Mooc.IP'
         ));
 
-        // TODO: überflüssiges Feld löschen
+        // TODO: Ã¼berflÃ¼ssiges Feld lÃ¶schen
     }
 
     function down()
     {
         Config::get()->delete(Mooc\OVERVIEW_CONTENT);
 
-        // TODO: Feld wieder hinzufügen
+        // TODO: Feld wieder hinzufÃ¼gen
     }
 }
 

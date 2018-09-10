@@ -12,7 +12,7 @@ if ($perm->have_studip_perm('autor', $course->id)) {
     $label = 'Zum Kurs';
     $params = array('cid' => $course->id);
 } else {
-    $label = 'Mehr…';
+    $label = 'Mehrâ€¦';
     $params = array('moocid' => $course->id);
 }
 

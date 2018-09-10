@@ -41,7 +41,7 @@ class RegistrationsController extends MoocipController {
         $this->fields = $this->parseRegistrationFormFields();
 
         if (!Request::option('accept_tos')) {
-            $this->flash['error'] = _mooc('Sie m¸ssen die Nutzungsbedingungen akzeptieren!');
+            $this->flash['error'] = _mooc('Sie m√ºssen die Nutzungsbedingungen akzeptieren!');
             return;
         }
 
@@ -83,7 +83,7 @@ class RegistrationsController extends MoocipController {
 
         if ($_SESSION['mooc']['register']['username'] == $user->username) {
             $this->sendMail($course, $user->username, $_SESSION['mooc']['register']['password']);
-            $this->render_json(array('message' => _mooc('Die Best‰tigungsmail wurde erfolgreich erneut versendet!')));
+            $this->render_json(array('message' => _mooc('Die Best√§tigungsmail wurde erfolgreich erneut versendet!')));
         } else {
             throw new Trails_Exception(400, 'Invalid session');
         }
@@ -151,7 +151,7 @@ class RegistrationsController extends MoocipController {
         }
 
         if (!$filledRequiredFields) {
-            $this->flash['error'] = _mooc('Sie m¸ssen alle Pflichtfelder ausf¸llen!');
+            $this->flash['error'] = _mooc('Sie m√ºssen alle Pflichtfelder ausf√ºllen!');
 
             return;
         }
@@ -237,7 +237,7 @@ class RegistrationsController extends MoocipController {
 
         // send mail with password to user
         $mail_msg = sprintf(
-            _mooc("Ihre Zugangsdaten f¸r den MOOC-Kurs '%s':\n\n"
+            _mooc("Ihre Zugangsdaten f√ºr den MOOC-Kurs '%s':\n\n"
             . "Benutzername: %s \n"
             . "Passwort: %s \n\n"
             . "Hier kommen Sie direkt zum Kurs:\n %s"),
@@ -368,7 +368,7 @@ class RegistrationsController extends MoocipController {
                 if ($fieldName === 'geschlecht') {
                     $choices = array(
                         _mooc('unbekannt'),
-                        _mooc('m‰nnlich'),
+                        _mooc('m√§nnlich'),
                         _mooc('weiblich'),
                     );
                 }

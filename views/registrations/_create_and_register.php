@@ -19,7 +19,7 @@ $privacyPolicyUrl = PluginEngine::getLink($plugin, array(), 'registrations/priva
 
                 <span>
                     Ich akzeptiere die <a href="<?= $termsOfServiceUrl ?>" target="_blank">Nutzungsbedingungen</a>
-                    und die <a href="<?= $privacyPolicyUrl ?>" target="_blank">Datenschutzerkl‰rung</a>.
+                    und die <a href="<?= $privacyPolicyUrl ?>" target="_blank">Datenschutzerkl√§rung</a>.
                 </span>
             </label>
         <? elseif (is_array($field)): ?>

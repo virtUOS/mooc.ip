@@ -24,7 +24,7 @@ endif;
 ?>
 
 <? if ($preliminary) : ?>
-    <?= MessageBox::info(_mooc('Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!')) ?>
+    <?= MessageBox::info(_mooc('Sie sind bereits fÃ¼r diesen Kurs eingetragen, allerdings kÃ¶nnen Sie auf die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!')) ?>
 <? endif ?>
 
 <h1><?= htmlReady($course->name) ?></h1>

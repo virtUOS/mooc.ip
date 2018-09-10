@@ -61,7 +61,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         return 'MOOC.IP - Open Courses';
     }
 
-    // bei Aufruf des Plugins über plugin.php/mooc/...
+    // bei Aufruf des Plugins Ã¼ber plugin.php/mooc/...
     public function initialize ()
     {
         PageLayout::setTitle($_SESSION['SessSemName']['header_line'] . ' - ' . $this->getPluginname());
@@ -240,7 +240,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
-            $overview_subnav = new Navigation(_('Übersicht'), $overview_url);
+            $overview_subnav = new Navigation(_('Ãœbersicht'), $overview_url);
             $overview_subnav->setImage(Assets::image_path('icons/16/white/seminar.png'));
             $overview_subnav->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
             $navigation->addSubnavigation("overview", $overview_subnav);
@@ -301,14 +301,14 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $cid = $this->getContext();
         $url = PluginEngine::getURL($this, compact('cid'), 'courses/show/' . $cid, true);
 
-        $navigation = new Navigation(_('Übersicht'), $url);
+        $navigation = new Navigation(_('Ãœbersicht'), $url);
         $navigation->setImage(Assets::image_path('icons/16/white/seminar.png'));
         $navigation->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
 
         $course = Course::find($cid);
         $sem_class = self::getMoocSemClass();
 
-        $navigation->addSubNavigation('overview', new Navigation(_('Übersicht'), $url));
+        $navigation->addSubNavigation('overview', new Navigation(_('Ãœbersicht'), $url));
 
         if (!$course->admission_binding && !$this->container['current_user']->hasPerm($cid, 'tutor')
                 && $this->container['current_user_id'] != 'nobody') {
