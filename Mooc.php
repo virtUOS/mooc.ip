@@ -138,7 +138,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
             }
         }
 
-        $this->addStyleSheet($this->getPluginURL().'/assets/start.less');
+        PageLayout::addStyleSheet($this->getPluginURL().'/assets/start.css');
         PageLayout::addScript($this->getPluginURL().'/assets/js/moocip_widget.js');
 
         $template_factory = new Flexi_TemplateFactory(__DIR__.'/views');
@@ -233,8 +233,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
             $overview_subnav = new Navigation(_('Übersicht'), $overview_url);
-            $overview_subnav->setImage(Assets::image_path('icons/16/white/seminar.png'));
-            $overview_subnav->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
             $navigation->addSubnavigation("overview", $overview_subnav);
 
             $navigation->addSubnavigation('registrations', $this->getRegistrationsNavigation());
@@ -322,8 +320,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $url = PluginEngine::getURL($this, compact('moocid'), 'registrations/new', true);
 
         $navigation = new Navigation('Anmeldung', $url);
-        $navigation->setImage(Assets::image_path('icons/16/white/door-enter.png'));
-        $navigation->setActiveImage(Assets::image_path('icons/16/black/door-enter.png'));
 
         return $navigation;
     }
