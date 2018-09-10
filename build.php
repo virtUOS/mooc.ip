@@ -124,7 +124,7 @@ function locales()
         . '"Language-Team: LANGUAGE <LL@li.org>\n"' . "\n"
         . '"Language: \n"' . "\n"
         . '"MIME-Version: 1.0\n"' . "\n"
-        . '"Content-Type: text/plain; charset=ISO-8859-1\n"' . "\n"
+        . '"Content-Type: text/plain; charset=UTF-8\n"' . "\n"
         . '"Content-Transfer-Encoding: 8bit\n"' ."\n\n");
 
     // collect translatable texts

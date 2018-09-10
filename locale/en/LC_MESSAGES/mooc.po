@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-29 11:50+0200\n"
+"POT-Creation-Date: 2018-09-0910 10:52+0200\n"
 "PO-Revision-Date: 2016-04-28 22:15+0200\n"
 "Last-Translator: Tobias Thelen <tobias.thelen@uni-osnabrueck.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,54 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Mooc.php:146
+#: Mooc.php:150
 msgid "Mooc.IP-Kurse"
 msgstr "Mooc.IP courses"
 
-#: Mooc.php:239 Mooc.php:300 Mooc.php:307
-msgid "Übersicht"
+#: Mooc.php:235 Mooc.php:296 Mooc.php:301
+#, fuzzy
+msgid "Ãœbersicht"
 msgstr "Overview"
 
-#: Mooc.php:246
+#: Mooc.php:242
 msgid "MOOCs"
 msgstr "MOOCs"
 
-#: Mooc.php:247
+#: Mooc.php:243
 msgid "Alle Kurse"
 msgstr "All courses"
 
-#: Mooc.php:311
+#: Mooc.php:305
 msgid "Austragen aus der Veranstaltung"
 msgstr "Unsubscribe from a course"
 
-#: Mooc.php:319
+#: Mooc.php:313
 msgid "Administration dieser Veranstaltung"
 msgstr "Administer this course"
 
-#: controllers/courses.php:165
-msgid "Das Abonnement der Veranstaltung kann nicht aufgehoben werden."
-msgstr "Course subscription cannot be cancelled."
-
-#: controllers/courses.php:172
-msgid "Das Abonnement der Veranstaltung konnte nicht aufgehoben werden."
-msgstr "Course subscription could not be cancelled."
-
-#: controllers/moocip_controller.php:150
-msgid "Mooc.IP"
-msgstr "Mooc.IP"
-
 #: controllers/registrations.php:44
-msgid "Sie müssen die Nutzungsbedingungen akzeptieren!"
+#, fuzzy
+msgid "Sie mÃ¼ssen die Nutzungsbedingungen akzeptieren!"
 msgstr "You have to accept the Terms of Use!"
 
 #: controllers/registrations.php:86
-msgid "Die Bestätigungsmail wurde erfolgreich erneut versendet!"
+#, fuzzy
+msgid "Die BestÃ¤tigungsmail wurde erfolgreich erneut versendet!"
 msgstr "The confirmation email was successfully sent again!"
 
 #: controllers/registrations.php:154
-msgid "Sie müssen alle Pflichtfelder ausfüllen!"
+#, fuzzy
+msgid "Sie mÃ¼ssen alle Pflichtfelder ausfÃ¼llen!"
 msgstr "Please fill in all required fields!"
 
 #: controllers/registrations.php:181
 msgid "Es gibt bereits einen Nutzer mit dieser E-Mail-Adresse!"
 msgstr "This email address is already in use!"
 
-#: controllers/registrations.php:241
-#, php-format
+#: controllers/registrations.php:240
+#, fuzzy, php-format
 msgid ""
-"Ihre Zugangsdaten für den MOOC-Kurs '%s':\n"
+"Ihre Zugangsdaten fÃ¼r den MOOC-Kurs '%s':\n"
 "\n"
 "Benutzername: %s \n"
 "Passwort: %s \n"
@@ -88,7 +80,7 @@ msgstr ""
 "Direct link to the course:\n"
 " %s"
 
-#: controllers/registrations.php:247
+#: controllers/registrations.php:246
 #, php-format
 msgid "Zugang zum MOOC-Kurs \"%s\""
 msgstr "Access to MOOC course \"%s\""
@@ -98,54 +90,51 @@ msgid "unbekannt"
 msgstr "unknown"
 
 #: controllers/registrations.php:371
-msgid "männlich"
+#, fuzzy
+msgid "mÃ¤nnlich"
 msgstr "male"
 
 #: controllers/registrations.php:372
 msgid "weiblich"
 msgstr "female"
 
+#: controllers/courses.php:171
+msgid "Das Abonnement der Veranstaltung kann nicht aufgehoben werden."
+msgstr "Course subscription cannot be cancelled."
+
+#: controllers/courses.php:178
+msgid "Das Abonnement der Veranstaltung konnte nicht aufgehoben werden."
+msgstr "Course subscription could not be cancelled."
+
+#: controllers/moocip_controller.php:153
+msgid "Mooc.IP"
+msgstr "Mooc.IP"
+
 #: cronjobs/preliminary_participants.php:15
-msgid "MOOC.IP - Vorläufige Nutzer in Veranstaltung übertragen"
+#, fuzzy
+msgid "MOOC.IP - VorlÃ¤ufige Nutzer in Veranstaltung Ã¼bertragen"
 msgstr "MOOC.IP - Enrol preliminary users in the course"
 
 #: cronjobs/preliminary_participants.php:20
+#, fuzzy
 msgid ""
-"Ändert nach Kursstart den Status aller vorläufig Teilnehmenden zu regulär "
-"Teilnehmenden und ändert das Anledeverfahren auf Direkteintrag."
+"Ã„ndert nach Kursstart den Status aller vorlÃ¤ufig Teilnehmenden zu regulÃ¤r "
+"Teilnehmenden und Ã¤ndert das Anledeverfahren auf Direkteintrag."
 msgstr ""
 "Changes the status of all preliminary users to regular user status after "
 "course start and changes enrolment procedure to 'direct entry'."
 
-#: views/courses/overview.php:3
-msgid "Bearbeiten"
-msgstr "Edit"
+#: views/start/index.php:27 views/start/index.php:67
+msgid "Kurs anzeigen"
+msgstr "Show course"
 
-#: views/courses/show.php:27
-msgid ""
-"Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf die "
-"Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!"
-msgstr ""
-"You are already enrolled in this course, but you cannot access course "
-"content before the course starts."
+#: views/start/index.php:36 views/start/index.php:76
+msgid "Mitgliedschaft beenden"
+msgstr "Cancel subscription"
 
-#: views/courses/show.php:34
-msgid "Voraussetzungen"
-msgstr "Prerequisites"
-
-#: views/courses/show.php:39
-msgid "Kursbeschreibung"
-msgstr "Course description"
-
-#: views/registrations/_create_and_register.php:34
-msgid "--"
-msgstr "--"
-
-#: views/registrations/_create_and_register.php:63
-#: views/registrations/_login_and_register.php:12
-#: views/registrations/_register.php:9
-msgid "Jetzt anmelden"
-msgstr "Register now"
+#: views/start/index.php:86
+msgid "Sie sind noch in keinem Mooc-Kurs eingetragen. "
+msgstr "You are not enrolled in any MOOC course."
 
 #: views/registrations/_login_and_register.php:2
 #: views/registrations/show.php:28
@@ -162,13 +151,19 @@ msgstr "Passwort"
 msgid "Ich bin mit den Nutzungsbedingungen einverstanden."
 msgstr "I agree to the terms of use"
 
-#: views/registrations/new.php:13
-#, php-format
-msgid "Anmeldung für \"%s\""
-msgstr "Registration for \"%s\""
+#: views/registrations/_login_and_register.php:12
+#: views/registrations/_register.php:9
+#: views/registrations/_create_and_register.php:63
+msgid "Jetzt anmelden"
+msgstr "Register now"
+
+#: views/registrations/_create_and_register.php:34
+msgid "--"
+msgstr "--"
 
 #: views/registrations/show.php:7
-msgid "Vielen Dank für Ihre Anmeldung!"
+#, fuzzy
+msgid "Vielen Dank fÃ¼r Ihre Anmeldung!"
 msgstr "Thank you very much for your registration!"
 
 #: views/registrations/show.php:11
@@ -176,16 +171,18 @@ msgid "Bitte loggen Sie sich ein!"
 msgstr "Please log in!"
 
 #: views/registrations/show.php:14
+#, fuzzy
 msgid ""
 "Wir haben soeben eine E-Mail an die angegebene Adresse geschickt, in der Ihr "
-"Passwort enthalten ist. Mit diesem Passwort können Sie sich nun einloggen."
+"Passwort enthalten ist. Mit diesem Passwort kÃ¶nnen Sie sich nun einloggen."
 msgstr ""
 "We sent you an email with your password to the provided address. You can now "
 "use this passwort to log in."
 
 #: views/registrations/show.php:17
+#, fuzzy
 msgid ""
-"Falls Sie die E-Mail nicht erhalten haben, können Sie sie sich erneut "
+"Falls Sie die E-Mail nicht erhalten haben, kÃ¶nnen Sie sie sich erneut "
 "schicken lassen."
 msgstr "If you did not receive this email, it can be resent."
 
@@ -197,14 +194,28 @@ msgstr "Send email again"
 msgid "Jetzt einloggen"
 msgstr "Log in now"
 
-#: views/start/index.php:22 views/start/index.php:62
-msgid "Kurs anzeigen"
-msgstr "Show course"
+#: views/registrations/new.php:13
+#, fuzzy, php-format
+msgid "Anmeldung fÃ¼r \"%s\""
+msgstr "Registration for \"%s\""
 
-#: views/start/index.php:31 views/start/index.php:71
-msgid "Mitgliedschaft beenden"
-msgstr "Cancel subscription"
+#: views/courses/show.php:27
+#, fuzzy
+msgid ""
+"Sie sind bereits fÃ¼r diesen Kurs eingetragen, allerdings kÃ¶nnen Sie auf "
+"die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!"
+msgstr ""
+"You are already enrolled in this course, but you cannot access course "
+"content before the course starts."
 
-#: views/start/index.php:81
-msgid "Sie sind noch in keinem Mooc-Kurs eingetragen. "
-msgstr "You are not enrolled in any MOOC course."
+#: views/courses/show.php:35
+msgid "Voraussetzungen"
+msgstr "Prerequisites"
+
+#: views/courses/show.php:40
+msgid "Kursbeschreibung"
+msgstr "Course description"
+
+#: views/courses/overview.php:3
+msgid "Bearbeiten"
+msgstr "Edit"
