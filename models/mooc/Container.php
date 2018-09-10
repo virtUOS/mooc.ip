@@ -35,7 +35,7 @@ class Container extends \Pimple
 
         $this['version'] = new Version();
 
-        $this['cid'] = \Request::option('cid') ?: $GLOBALS['SessionSeminar'];
+        $this['cid'] = \Context::getId();
 
         $this['datafields'] = array(
             'preview_image' => md5('(M)OOC-Preview-Image'),

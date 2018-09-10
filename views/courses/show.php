@@ -27,8 +27,9 @@ endif;
     <?= MessageBox::info(_mooc('Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!')) ?>
 <? endif ?>
 
-<h1><?= htmlReady($course->name) ?></h1>
-<p class=subtitle><?= htmlReady($course->untertitel) ?></p>
+<? if ($course->untertitel): ?>
+    <p class=subtitle><?= htmlReady($course->untertitel) ?></p>
+<? endif ?>
 
 <article class=requirements>
   <h1><?= _mooc('Voraussetzungen') ?></h1>

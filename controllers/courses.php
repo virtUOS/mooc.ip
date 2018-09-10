@@ -19,7 +19,7 @@ class CoursesController extends MoocipController {
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        $this->cid = $this->plugin->getContext();
+        $this->cid = \Context::getId();
     }
 
     public function index_action()
@@ -105,11 +105,13 @@ class CoursesController extends MoocipController {
             throw new Trails_Exception(400);
         }
 
-        if ($GLOBALS['SessionSeminar'] && Navigation::hasItem('/course/mooc_overview/overview')) {
+        if (\Context::getId() && Navigation::hasItem('/course/mooc_overview/overview')) {
             Navigation::activateItem("/course/mooc_overview/overview");
         } else {
             $this->plugin->fixCourseNavigation();
         }
+
+        PageLayout::setTitle(Context::getHeaderLine());
 
         $user_id = $this->plugin->getCurrentUser()->id;
         $admission = new AdmissionApplication(array($user_id, $cid));
