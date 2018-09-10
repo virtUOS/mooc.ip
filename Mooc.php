@@ -65,7 +65,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     public function initialize ()
     {
         PageLayout::setTitle($_SESSION['SessSemName']['header_line'] . ' - ' . $this->getPluginname());
-        PageLayout::addStylesheet($this->getPluginURL().'/assets/style.css');
+        $this->addStyleSheet('/assets/style.less');
     }
 
     /**
@@ -138,7 +138,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
             }
         }
 
-        PageLayout::addStylesheet($this->getPluginURL().'/assets/start.css');
+        $this->addStyleSheet($this->getPluginURL().'/assets/start.less');
         PageLayout::addScript($this->getPluginURL().'/assets/js/moocip_widget.js');
 
         $template_factory = new Flexi_TemplateFactory(__DIR__.'/views');
@@ -169,14 +169,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         );
         $dispatcher->plugin = $this;
         $dispatcher->dispatch($unconsumed_path);
-    }
-
-    /**
-     * @return string
-     */
-    public function getContext()
-    {
-        return Request::option('cid') ?: $GLOBALS['SessionSeminar'];
     }
 
     /**
@@ -262,7 +254,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     public function fixCourseNavigation()
     {
         // don't do anything if we are not in a course context
-        if (!$this->getContext()) {
+        if (!\Context::getId()) {
             return;
         }
 
@@ -282,8 +274,8 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
     private function getSemClass()
     {
-        global $SEM_CLASS, $SEM_TYPE, $SessSemName;
-        return $SEM_CLASS[$SEM_TYPE[$SessSemName['art_num']]['class']];
+        global $SEM_CLASS, $SEM_TYPE;
+        return $SEM_CLASS[$SEM_TYPE[Context::getArtNum()]['class']];
     }
 
     private function isSlotModule()
@@ -298,12 +290,10 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
     private function getOverviewNavigation()
     {
-        $cid = $this->getContext();
+        $cid = \Context::getId();
         $url = PluginEngine::getURL($this, compact('cid'), 'courses/show/' . $cid, true);
 
         $navigation = new Navigation(_('Übersicht'), $url);
-        $navigation->setImage(Assets::image_path('icons/16/white/seminar.png'));
-        $navigation->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
 
         $course = Course::find($cid);
         $sem_class = self::getMoocSemClass();
