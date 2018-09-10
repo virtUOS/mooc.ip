@@ -236,7 +236,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $url_courses = PluginEngine::getURL($this, array(), 'courses/index', true);
 
         $navigation = new Navigation('MOOCs', $url_overview);
-        $navigation->setImage($GLOBALS['ABSOLUTE_URI_STUDIP'] . $this->getPluginPath() . '/assets/images/mooc.png');
+        $navigation->setImage(Icon::create('category', 'clickable'));
 
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
