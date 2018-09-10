@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-10 12:53+0200\n"
+"POT-Creation-Date: 2018-09-10 13:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,23 +21,23 @@ msgstr ""
 msgid "Mooc.IP-Kurse"
 msgstr ""
 
-#: Mooc.php:235 Mooc.php:296 Mooc.php:301
+#: Mooc.php:235 Mooc.php:294 Mooc.php:299
 msgid "Übersicht"
 msgstr ""
 
-#: Mooc.php:242
+#: Mooc.php:240
 msgid "MOOCs"
 msgstr ""
 
-#: Mooc.php:243
+#: Mooc.php:241
 msgid "Alle Kurse"
 msgstr ""
 
-#: Mooc.php:305
+#: Mooc.php:303
 msgid "Austragen aus der Veranstaltung"
 msgstr ""
 
-#: Mooc.php:313
+#: Mooc.php:311
 msgid "Administration dieser Veranstaltung"
 msgstr ""
 
@@ -137,11 +137,11 @@ msgstr ""
 
 #: views/registrations/_login_and_register.php:12
 #: views/registrations/_register.php:9
-#: views/registrations/_create_and_register.php:63
+#: views/registrations/_create_and_register.php:58
 msgid "Jetzt anmelden"
 msgstr ""
 
-#: views/registrations/_create_and_register.php:34
+#: views/registrations/_create_and_register.php:29
 msgid "--"
 msgstr ""
 

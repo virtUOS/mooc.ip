@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-0910 10:52+0200\n"
+"POT-Creation-Date: 2018-09-10 13:26+0200\n"
 "PO-Revision-Date: 2016-04-28 22:15+0200\n"
 "Last-Translator: Tobias Thelen <tobias.thelen@uni-osnabrueck.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,24 +21,24 @@ msgstr ""
 msgid "Mooc.IP-Kurse"
 msgstr "Mooc.IP courses"
 
-#: Mooc.php:235 Mooc.php:296 Mooc.php:301
+#: Mooc.php:235 Mooc.php:294 Mooc.php:299
 #, fuzzy
 msgid "Übersicht"
 msgstr "Overview"
 
-#: Mooc.php:242
+#: Mooc.php:240
 msgid "MOOCs"
 msgstr "MOOCs"
 
-#: Mooc.php:243
+#: Mooc.php:241
 msgid "Alle Kurse"
 msgstr "All courses"
 
-#: Mooc.php:305
+#: Mooc.php:303
 msgid "Austragen aus der Veranstaltung"
 msgstr "Unsubscribe from a course"
 
-#: Mooc.php:313
+#: Mooc.php:311
 msgid "Administration dieser Veranstaltung"
 msgstr "Administer this course"
 
@@ -153,11 +153,11 @@ msgstr "I agree to the terms of use"
 
 #: views/registrations/_login_and_register.php:12
 #: views/registrations/_register.php:9
-#: views/registrations/_create_and_register.php:63
+#: views/registrations/_create_and_register.php:58
 msgid "Jetzt anmelden"
 msgstr "Register now"
 
-#: views/registrations/_create_and_register.php:34
+#: views/registrations/_create_and_register.php:29
 msgid "--"
 msgstr "--"
 
