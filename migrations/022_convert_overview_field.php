@@ -28,7 +28,9 @@ class ConvertOverviewField extends Migration
 
             $stmt->execute(array($block_id));
             $content = utf8_decode(json_decode($stmt->fetchColumn()));
-        } catch (PDOException $e) {}
+        } catch (PDOException $e) {
+            $content = '';
+        }
 
         Config::get()->create(Mooc\OVERVIEW_CONTENT, array(
             'value'       => $content,
@@ -49,5 +51,3 @@ class ConvertOverviewField extends Migration
         // TODO: Feld wieder hinzufügen
     }
 }
-
-
