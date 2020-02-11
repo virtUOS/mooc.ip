@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-22 15:47+0100\n"
+"POT-Creation-Date: 2018-09-10 13:26+0200\n"
 "PO-Revision-Date: 2016-04-28 22:15+0200\n"
 "Last-Translator: Tobias Thelen <tobias.thelen@uni-osnabrueck.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,18 +41,6 @@ msgstr "Unsubscribe from a course"
 #: Mooc.php:311
 msgid "Administration dieser Veranstaltung"
 msgstr "Administer this course"
-
-#: controllers/courses.php:171
-msgid "Das Abonnement der Veranstaltung kann nicht aufgehoben werden."
-msgstr "Course subscription cannot be cancelled."
-
-#: controllers/courses.php:178
-msgid "Das Abonnement der Veranstaltung konnte nicht aufgehoben werden."
-msgstr "Course subscription could not be cancelled."
-
-#: controllers/moocip_controller.php:153
-msgid "Mooc.IP"
-msgstr "Mooc.IP"
 
 #: controllers/registrations.php:44
 #, fuzzy
@@ -110,6 +98,18 @@ msgstr "male"
 msgid "weiblich"
 msgstr "female"
 
+#: controllers/courses.php:171
+msgid "Das Abonnement der Veranstaltung kann nicht aufgehoben werden."
+msgstr "Course subscription cannot be cancelled."
+
+#: controllers/courses.php:178
+msgid "Das Abonnement der Veranstaltung konnte nicht aufgehoben werden."
+msgstr "Course subscription could not be cancelled."
+
+#: controllers/moocip_controller.php:153
+msgid "Mooc.IP"
+msgstr "Mooc.IP"
+
 #: cronjobs/preliminary_participants.php:15
 #, fuzzy
 msgid "MOOC.IP - Vorläufige Nutzer in Veranstaltung übertragen"
@@ -124,36 +124,17 @@ msgstr ""
 "Changes the status of all preliminary users to regular user status after "
 "course start and changes enrolment procedure to 'direct entry'."
 
-#: views/courses/overview.php:3
-msgid "Bearbeiten"
-msgstr "Edit"
+#: views/start/index.php:27 views/start/index.php:67
+msgid "Kurs anzeigen"
+msgstr "Show course"
 
-#: views/courses/show.php:27
-#, fuzzy
-msgid ""
-"Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf "
-"die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!"
-msgstr ""
-"You are already enrolled in this course, but you cannot access course "
-"content before the course starts."
+#: views/start/index.php:36 views/start/index.php:76
+msgid "Mitgliedschaft beenden"
+msgstr "Cancel subscription"
 
-#: views/courses/show.php:35
-msgid "Voraussetzungen"
-msgstr "Prerequisites"
-
-#: views/courses/show.php:40
-msgid "Kursbeschreibung"
-msgstr "Course description"
-
-#: views/registrations/_create_and_register.php:29
-msgid "--"
-msgstr "--"
-
-#: views/registrations/_create_and_register.php:58
-#: views/registrations/_login_and_register.php:12
-#: views/registrations/_register.php:9
-msgid "Jetzt anmelden"
-msgstr "Register now"
+#: views/start/index.php:86
+msgid "Sie sind noch in keinem Mooc-Kurs eingetragen. "
+msgstr "You are not enrolled in any MOOC course."
 
 #: views/registrations/_login_and_register.php:2
 #: views/registrations/show.php:28
@@ -170,10 +151,15 @@ msgstr "Passwort"
 msgid "Ich bin mit den Nutzungsbedingungen einverstanden."
 msgstr "I agree to the terms of use"
 
-#: views/registrations/new.php:13
-#, fuzzy, php-format
-msgid "Anmeldung für \"%s\""
-msgstr "Registration for \"%s\""
+#: views/registrations/_login_and_register.php:12
+#: views/registrations/_register.php:9
+#: views/registrations/_create_and_register.php:58
+msgid "Jetzt anmelden"
+msgstr "Register now"
+
+#: views/registrations/_create_and_register.php:29
+msgid "--"
+msgstr "--"
 
 #: views/registrations/show.php:7
 #, fuzzy
@@ -208,14 +194,28 @@ msgstr "Send email again"
 msgid "Jetzt einloggen"
 msgstr "Log in now"
 
-#: views/start/index.php:27 views/start/index.php:67
-msgid "Kurs anzeigen"
-msgstr "Show course"
+#: views/registrations/new.php:13
+#, fuzzy, php-format
+msgid "Anmeldung für \"%s\""
+msgstr "Registration for \"%s\""
 
-#: views/start/index.php:36 views/start/index.php:76
-msgid "Mitgliedschaft beenden"
-msgstr "Cancel subscription"
+#: views/courses/show.php:27
+#, fuzzy
+msgid ""
+"Sie sind bereits für diesen Kurs eingetragen, allerdings können Sie auf "
+"die Kursinhalte erst zugreifen, sobald der Kurs begonnen hat!"
+msgstr ""
+"You are already enrolled in this course, but you cannot access course "
+"content before the course starts."
 
-#: views/start/index.php:86
-msgid "Sie sind noch in keinem Mooc-Kurs eingetragen. "
-msgstr "You are not enrolled in any MOOC course."
+#: views/courses/show.php:35
+msgid "Voraussetzungen"
+msgstr "Prerequisites"
+
+#: views/courses/show.php:40
+msgid "Kursbeschreibung"
+msgstr "Course description"
+
+#: views/courses/overview.php:3
+msgid "Bearbeiten"
+msgstr "Edit"

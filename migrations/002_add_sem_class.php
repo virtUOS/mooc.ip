@@ -51,7 +51,7 @@ class AddSemClass extends Migration
 		}
 		
 		if($id === -1) {
-			$message = sprintf('Ungültige id (id=%d)', $id);
+			$message = sprintf('UngÃ¼ltige id (id=%d)', $id);
             throw new Exception($message);
 		}
 		
@@ -130,7 +130,7 @@ class AddSemClass extends Migration
             'type'        => 'integer',
             'range'       => 'global',
             'section'     => 'global',
-            'description' => 'ID der Veranstaltungsklasse für (M)OOC-Veranstaltungen.'
+            'description' => 'ID der Veranstaltungsklasse fÃ¼r (M)OOC-Veranstaltungen.'
             ));
     }
 

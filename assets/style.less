@@ -1,39 +1,43 @@
-@import 'mooc-progress';
-
 .clear {
     clear: both;
 }
 
 /* /courses/index */
-#mooc-courses-index #layout_container #course-list article {
-    clear: both;
-    padding: 10px 0px;
-    min-height: 100px;
-    position: relative;
-    border-bottom: 1px solid #d9d9d9;
-}
+#mooc-courses-index {
+    #layout-sidebar {
+        display: none;
+    }
 
-#mooc-courses-index #layout_container #course-list article .course-avatar-medium {
-    float: left;
-    padding-right: 20px;
-}
+    #layout_container #course-list article {
+        clear: both;
+        padding: 10px 0px;
+        min-height: 100px;
+        position: relative;
+        border-bottom: 1px solid #d9d9d9;
+    }
 
-#mooc-courses-index #layout_container #course-list article h1 {
-    border: none;
-    margin-bottom: 0;
-}
+    #layout_container #course-list article .course-avatar-medium {
+        float: left;
+        padding-right: 20px;
+    }
 
-#mooc-courses-index #layout_container #course-list article p {
-    margin: 4px 0px 0px 0px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+    #layout_container #course-list article h1 {
+        border: none;
+        margin-bottom: 0;
+    }
 
-#mooc-courses-index #layout_container #course-list article a {
-    position: absolute;
-    bottom: 10px;
-    margin-bottom: 0;
+    #layout_container #course-list article p {
+        margin: 4px 0px 0px 0px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #layout_container #course-list article a {
+        position: absolute;
+        bottom: 10px;
+        margin-bottom: 0;
+    }
 }
 
 /* /courses/show */
@@ -110,10 +114,9 @@
 /* /courseware */
 
 /* /registrations */
-#mooc-registrations-index #layout_container {
+/* #mooc-registrations-index #layout_container {
   input {
     font-size: 14pt;
-    margin-bottom: 5px;
   }
 
   form.signup input[type=text], form.signup input[type=email], form.signin input[type=text], form.signin input[type=email], form.signup select {
@@ -139,47 +142,181 @@
     font-size: 1rem;
     padding-left: 0;
   }
-
-  label {
-    display: block;
-
-    &.required {
-      font-weight: bold;
-    }
-
-    &.tos {
-      display: inline;
-      position: relative;
-
-      span {
-        display: block;
-        padding-left: 45px;
-      }
-
-      input {
-        position: absolute;
-      }
-    }
-  }
-
-  #layout_sidebar label.tos {
-    input {
-      top: 1.1em;
-    }
-
-    span {
-      padding-left: 30px;
-    }
-  }
 }
+*/
 
-#mooc-courses-overview textarea {
-    width: 100%;
-    height: 20em;
+#mooc-courses-overview {
+    #layout-sidebar {
+        display: none;
+    }
+
+    textarea {
+        width: 100%;
+        height: 20em;
+    }
 }
 
 #mooc-courses-show {
 	.sidebar .sidebar-widget:nth-child(2) {
 		border: none;
 	}
+}
+
+
+/* * * * * * * * * * * * * * * * * * */
+/* *   M O O C   P R O G R E S S   * */
+/* * * * * * * * * * * * * * * * * * */
+
+#mooc-progress-index #layout_container {
+
+  // TODO move to OHN-layout
+  h1 {
+    border: none;
+    padding-left: 0;
+  }
+
+  table.chapters {
+    width: 100%;
+    border-collapse: collapse;
+
+    tr:nth-child(even) {
+      background: #eee;
+    }
+
+    tr + tr {
+      border-top: 1px solid #ddd;
+    }
+
+  }
+
+  .chapter th, .subchapter th {
+    text-align: left;
+    font-weight: 700;
+    line-height: 1.1;
+    padding-top: 1.1em;
+    padding-bottom: 0.55em;
+    color: #444;
+  }
+
+  .chapter th {
+    font-size: 1.4em;
+  }
+
+  .subchapter th {
+    font-size: 1.1em;
+    padding-left: 1.2em;
+    white-space: nowrap;
+    width: 10%;
+  }
+
+
+  ol.sections {
+    list-style: none;
+    padding: 5px;
+    margin: 0;
+
+    li {
+      progress {
+        /* Reset the default appearance */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        /* Get rid of default border in Firefox. */
+        border: none;
+
+        /* Dimensions */
+        width: 100%;
+        height: 20px;
+
+        /* For IE10 */
+        color: #006533;
+        background: #006533;
+
+        font-size: .6em;
+        line-height: 1.5em;
+      }
+
+      progress::-webkit-progress-value {
+        background: #006533;
+      }
+
+      progress::-webkit-progress-bar {
+        background: #bbbbbb;
+      }
+
+      progress::-moz-progress-bar {
+        background: #006533;
+      }
+
+      a {
+        box-sizing: border-box;
+        padding: 0.5em 1em;
+        display: inline-block;
+        position: relative;
+
+        &:after {
+          content: attr(data-progress) '%';
+          font-size: 14px;
+          color: white;
+          position: absolute;
+          top: 0.5em;
+          left: 1.5em;
+          line-height: 1.5em;
+        }
+
+      }
+    }
+
+    // flexbox fallbacks
+    li {
+      float: left;
+      a {
+        width: 8em;
+      }
+    }
+  }
+}
+
+html.flexbox #mooc-progress-index #layout_container {
+
+
+  ol.sections {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+
+    li {
+      -webkit-order: 0;
+      -ms-flex-order: 0;
+      order: 0;
+      -webkit-flex: 1 1 auto;
+      -ms-flex: 1 1 auto;
+      flex: 1 1 auto;
+      -webkit-align-self: auto;
+      -ms-flex-item-align: auto;
+      align-self: auto;
+      float: none;
+
+      a {
+        width: 100%;
+      }
+    }
+
+  }
 }

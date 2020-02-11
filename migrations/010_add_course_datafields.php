@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Till Glˆggler <tgloeggl@uos.de>
+ * @author Till Gl√∂ggler <tgloeggl@uos.de>
  */
 class AddCourseDatafields extends Migration
 {
@@ -22,7 +22,7 @@ class AddCourseDatafields extends Migration
                 `object_class`, `edit_perms`, `view_perms`, `priority`,
                 `mkdate`, `chdate`, `type`, `typeparam`, `is_required`, `description`)
             VALUES (md5('(M)OOC Startdatum'), '(M)OOC Startdatum', 1,
-                ?, 3, 1, '0', NULL, NULL, 5, '', '0', 'Startdatum des (M)OOC Kurses')"
+                ?, 3, 1, '0', NULL, NULL, 'date', '', '0', 'Startdatum des (M)OOC Kurses')"
         );
         $stm->execute(array($mooc_sem_class));
 
@@ -31,7 +31,7 @@ class AddCourseDatafields extends Migration
                 `object_class`, `edit_perms`, `view_perms`, `priority`,
                 `mkdate`, `chdate`, `type`, `typeparam`, `is_required`, `description`)
             VALUES (md5('(M)OOC Dauer'), '(M)OOC Dauer', 1,
-                ?, 3, 1, '0', NULL, NULL, 2, '', '0', 'Dauer des (M)OOC Kurses')"
+                ?, 3, 1, '0', NULL, NULL, 'textline', '', '0', 'Dauer des (M)OOC Kurses')"
         );
         $stm->execute(array($mooc_sem_class));
 
@@ -40,7 +40,7 @@ class AddCourseDatafields extends Migration
                 `object_class`, `edit_perms`, `view_perms`, `priority`,
                 `mkdate`, `chdate`, `type`, `typeparam`, `is_required`, `description`)
             VALUES (md5('(M)OOC Hinweise'), '(M)OOC Hinweise', 1,
-                ?, 3, 1, '0', NULL, NULL, 3, '', '0', 'Hinweise f¸r (M)OOC Kurs')"
+                ?, 3, 1, '0', NULL, NULL, 'textareai18n', '', '0', 'Hinweise f√ºr (M)OOC Kurs')"
         );
         $stm->execute(array($mooc_sem_class));
     }

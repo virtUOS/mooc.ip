@@ -46,7 +46,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
         // deactivate Vips-Plugin for students if this course is capture by the mooc-plugin
         if ($this->isSlotModule() && !$GLOBALS['perm']->have_studip_perm("tutor", $this->container['cid'])) {
-            Navigation::removeItem('/course/vipsplugin');
+            //Navigation::removeItem('/course/vipsplugin');
         }
 
         if (strpos($_SERVER['REQUEST_URI'], 'dispatch.php/course/basicdata') !== false) {
@@ -61,11 +61,11 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         return 'MOOC.IP - Open Courses';
     }
 
-    // bei Aufruf des Plugins über plugin.php/mooc/...
+    // bei Aufruf des Plugins Ã¼ber plugin.php/mooc/...
     public function initialize ()
     {
         PageLayout::setTitle($_SESSION['SessSemName']['header_line'] . ' - ' . $this->getPluginname());
-        PageLayout::addStylesheet($this->getPluginURL().'/assets/style.css');
+        $this->addStyleSheet('/assets/style.less');
     }
 
     /**
@@ -137,12 +137,8 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
                 }
             }
         }
-        
-        usort($courses, function($a, $b) {
-    	    return strtotime($b['datafields']['start']) - strtotime($a['datafields']['start']);
-	});
 
-        PageLayout::addStylesheet($this->getPluginURL().'/assets/start.css');
+        PageLayout::addStyleSheet($this->getPluginURL().'/assets/start.css');
         PageLayout::addScript($this->getPluginURL().'/assets/js/moocip_widget.js');
 
         $template_factory = new Flexi_TemplateFactory(__DIR__.'/views');
@@ -173,14 +169,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         );
         $dispatcher->plugin = $this;
         $dispatcher->dispatch($unconsumed_path);
-    }
-
-    /**
-     * @return string
-     */
-    public function getContext()
-    {
-        return Request::option('cid') ?: $GLOBALS['SessionSeminar'];
     }
 
     /**
@@ -240,19 +228,17 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $url_courses = PluginEngine::getURL($this, array(), 'courses/index', true);
 
         $navigation = new Navigation('MOOCs', $url_overview);
-        $navigation->setImage($GLOBALS['ABSOLUTE_URI_STUDIP'] . $this->getPluginPath() . '/assets/images/mooc.png');
+        $navigation->setImage(Icon::create('category', 'clickable'));
 
         if (Request::get('moocid')) {
             $overview_url = PluginEngine::getURL($this, compact('moocid'), 'courses/show/' . $moocid, true);;
-            $overview_subnav = new Navigation(_('Übersicht'), $overview_url);
-            $overview_subnav->setImage(Assets::image_path('icons/16/white/seminar.png'));
-            $overview_subnav->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
+            $overview_subnav = new Navigation(_('Ãœbersicht'), $overview_url);
             $navigation->addSubnavigation("overview", $overview_subnav);
 
             $navigation->addSubnavigation('registrations', $this->getRegistrationsNavigation());
         } else {
-            #$navigation->addSubnavigation("overview", new Navigation(_mooc('MOOCs'), $url_overview));
-            #$navigation->addSubnavigation("all", new Navigation(_mooc('Alle Kurse'), $url_courses));
+            $navigation->addSubnavigation("overview", new Navigation(_mooc('MOOCs'), $url_overview));
+            $navigation->addSubnavigation("all", new Navigation(_mooc('Alle Kurse'), $url_courses));
         }
 
         Navigation::addItem('/mooc', $navigation);
@@ -266,7 +252,7 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
     public function fixCourseNavigation()
     {
         // don't do anything if we are not in a course context
-        if (!$this->getContext()) {
+        if (!\Context::getId()) {
             return;
         }
 
@@ -286,8 +272,8 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
     private function getSemClass()
     {
-        global $SEM_CLASS, $SEM_TYPE, $SessSemName;
-        return $SEM_CLASS[$SEM_TYPE[$SessSemName['art_num']]['class']];
+        global $SEM_CLASS, $SEM_TYPE;
+        return $SEM_CLASS[$SEM_TYPE[Context::getArtNum()]['class']];
     }
 
     private function isSlotModule()
@@ -302,17 +288,15 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
 
     private function getOverviewNavigation()
     {
-        $cid = $this->getContext();
+        $cid = \Context::getId();
         $url = PluginEngine::getURL($this, compact('cid'), 'courses/show/' . $cid, true);
 
-        $navigation = new Navigation(_('Übersicht'), $url);
-        $navigation->setImage(Assets::image_path('icons/16/white/seminar.png'));
-        $navigation->setActiveImage(Assets::image_path('icons/16/black/seminar.png'));
+        $navigation = new Navigation(_('Ãœbersicht'), $url);
 
         $course = Course::find($cid);
         $sem_class = self::getMoocSemClass();
 
-        $navigation->addSubNavigation('overview', new Navigation(_('Übersicht'), $url));
+        $navigation->addSubNavigation('overview', new Navigation(_('Ãœbersicht'), $url));
 
         if (!$course->admission_binding && !$this->container['current_user']->hasPerm($cid, 'tutor')
                 && $this->container['current_user_id'] != 'nobody') {
@@ -336,8 +320,6 @@ class Mooc extends StudIPPlugin implements PortalPlugin, StandardPlugin, SystemP
         $url = PluginEngine::getURL($this, compact('moocid'), 'registrations/new', true);
 
         $navigation = new Navigation('Anmeldung', $url);
-        $navigation->setImage(Assets::image_path('icons/16/white/door-enter.png'));
-        $navigation->setActiveImage(Assets::image_path('icons/16/black/door-enter.png'));
 
         return $navigation;
     }

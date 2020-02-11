@@ -2,7 +2,7 @@
 /**
 * preliminary_participants.php
 *
-* @author Till Glöggler <tgloeggl@uos.de>
+* @author Till GlÃ¶ggler <tgloeggl@uos.de>
 * @access public
 */
 require_once 'lib/classes/CronJob.class.php';
@@ -12,20 +12,20 @@ class PreliminarParticipants extends CronJob
 
     public static function getName()
     {
-        return dgettext('mooc', 'MOOC.IP - Vorläufige Nutzer in Veranstaltung übertragen');
+        return dgettext('mooc', 'MOOC.IP - VorlÃ¤ufige Nutzer in Veranstaltung Ã¼bertragen');
     }
 
     public static function getDescription()
     {
-        return dgettext('mooc', 'Ändert nach Kursstart den Status aller vorläufig Teilnehmenden zu regulär Teilnehmenden und ändert das Anledeverfahren auf Direkteintrag.');
+        return dgettext('mooc', 'Ã„ndert nach Kursstart den Status aller vorlÃ¤ufig Teilnehmenden zu regulÃ¤r Teilnehmenden und Ã¤ndert das Anledeverfahren auf Direkteintrag.');
     }
 
     public function execute($last_result, $parameters = array())
     {
         $db = DBManager::get();
-
+        $status = Config::getInstance()->MOOC_SEM_CLASS_CONFIG_ID;
         // get all courses with preliminary access
-        $res = $db->query("SELECT seminar_id FROM seminare WHERE admission_prelim = 1");
+        $res = $db->query("SELECT seminar_id FROM seminare WHERE admission_prelim = 1 AND status = ".  $status);
 
         while ($seminar_id = $res->fetchColumn()) {
             $course = Course::find($seminar_id);
@@ -64,7 +64,7 @@ class PreliminarParticipants extends CronJob
                         WHERE seminar_id = ?");
                 $stmt->execute(array($seminar_id));
 
-                echo '... alle Teilnehmenden wurden übertragen.' . "\n";
+                echo '... alle Teilnehmenden wurden Ã¼bertragen.' . "\n";
             }
 
             // change preliminary access to direct access for course

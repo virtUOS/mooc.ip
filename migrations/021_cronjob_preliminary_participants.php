@@ -3,7 +3,7 @@
 /**
  * 020_cronjob_preliminary_participants.php
  *
- * @author Till Glöggler <tgloeggl@uos.de>
+ * @author Till GlÃ¶ggler <tgloeggl@uos.de>
  */
 class CronjobPreliminaryParticipants extends Migration
 {

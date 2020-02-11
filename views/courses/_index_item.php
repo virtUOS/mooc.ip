@@ -12,7 +12,7 @@ if ($perm->have_studip_perm('autor', $course->id)) {
     $label = 'Zum Kurs';
     $params = array('cid' => $course->id);
 } else {
-    $label = 'Mehr…';
+    $label = 'Mehrâ€¦';
     $params = array('moocid' => $course->id);
 }
 
@@ -25,10 +25,7 @@ $courseUrl = PluginEngine::getLink($plugin, $params, 'courses/show/'.$course->id
   	
 
   <h1><?= htmlReady($course->name) ?></h1>
-   <?
-    $fields = DataFieldEntry::getDataFieldEntries($course->seminar_id);
-    $value = $fields['25890c68a68d310baad033125b89f938']->value;
-    ?>
+  <p class=subtitle><?= htmlReady($course->untertitel) ?></p>
 
   <?= \Studip\LinkButton::create($label, $courseUrl) ?>
 </article>

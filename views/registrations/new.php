@@ -10,18 +10,12 @@ $body_id = 'mooc-registrations-index';
 <? endif ?>
 
 <h1>
-  <? printf(_mooc('Anmeldung für "%s"'), htmlReady($course->name)) ?>
+  <? printf(_mooc('Anmeldung fÃ¼r "%s"'), htmlReady($course->name)) ?>
 </h1>
 
 <? if ($plugin->getCurrentUserId() === 'nobody') : ?>
-    <h2>Noch kein Account? Registrierungsformular ausfüllen und für Kurs anmelden. </h2>
-    <h2>Bereits registriert? Direkt mit Zugangsdaten einloggen und für Kurs anmelden. </h2>
   <?= $this->render_partial('registrations/_create_and_register') ?>
-
-<br>
-<br>
-<br>
-  <?= $this->render_partial('registrations/_infobox') ?>
+  <? $infobox = $this->render_partial('registrations/_infobox') ?>
 <? else : ?>
     <article class="tos">
         <?= $this->render_partial('registrations/terms') ?>

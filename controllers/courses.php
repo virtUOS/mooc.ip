@@ -19,16 +19,13 @@ class CoursesController extends MoocipController {
     public function before_filter(&$action, &$args)
     {
         parent::before_filter($action, $args);
-        $this->cid = $this->plugin->getContext();
+        $this->cid = \Context::getId();
     }
 
     public function index_action()
     {
         // get rid of the currently selected course
         closeObject();
-        header("Location: https://ohn-kursportal.de");
-        die();
-        /**
 
         if (Navigation::hasItem('/mooc/all')) {
             Navigation::activateItem('/mooc/all');
@@ -39,22 +36,11 @@ class CoursesController extends MoocipController {
         $this->preview_images = array();
 
         foreach ($this->courses as $course) {
-            /** @var \DataFieldEntry[] $localEntries 
+            /** @var \DataFieldEntry[] $localEntries */
             $localEntries = DataFieldEntry::getDataFieldEntries($course->seminar_id);
 
-            usort($this->courses, function($a, $b) {
-                try{
-                $fieldsb = DataFieldEntry::getDataFieldEntries($b->seminar_id);
-                $fieldsa = DataFieldEntry::getDataFieldEntries($a->seminar_id);
-                $valueb = $fieldsb['25890c68a68d310baad033125b89f938']->value;
-                $valuea = $fieldsa['25890c68a68d310baad033125b89f938']->value;
-                $result = strtotime($valueb) - strtotime($valuea);
-                return $result;
-                } catch (Exception $e) {return '0'; };
-            });
-            
             foreach ($localEntries as $entry) {
-                /** @var \DataFieldStructure $structure 
+                /** @var \DataFieldStructure $structure */
                 $accessor = null; // tmp variable to handle access
                 $structure = $entry->structure;
                 if($structure){
@@ -79,7 +65,7 @@ class CoursesController extends MoocipController {
                     }
                 }
             }
-        }*/
+        }
     }
 
     public function overview_action($edit = false)
@@ -87,7 +73,6 @@ class CoursesController extends MoocipController {
         if (Navigation::hasItem('/mooc/overview')) {
             Navigation::activateItem('/mooc/overview');
         }
-        PageLayout::setTitle(Config::get()->getValue(Mooc\PLUGIN_DISPLAY_NAME_ID));
 
         $this->data      = Config::get()->getValue(Mooc\OVERVIEW_CONTENT);
         $this->context  = clone Request::getInstance();
@@ -120,16 +105,13 @@ class CoursesController extends MoocipController {
             throw new Trails_Exception(400);
         }
 
-        if ($cid !== $_SESSION['SessionSeminar'] && $GLOBALS['perm']->have_studip_perm('user', $cid)) {
-            header('Location: ' . URLHelper::getURL('', compact('cid')));
-            return;
-        }
-
-        if ($GLOBALS['SessionSeminar'] && Navigation::hasItem('/course/mooc_overview/overview')) {
+        if (\Context::getId() && Navigation::hasItem('/course/mooc_overview/overview')) {
             Navigation::activateItem("/course/mooc_overview/overview");
         } else {
             $this->plugin->fixCourseNavigation();
         }
+
+        PageLayout::setTitle(Context::getHeaderLine());
 
         $user_id = $this->plugin->getCurrentUser()->id;
         $admission = new AdmissionApplication(array($user_id, $cid));

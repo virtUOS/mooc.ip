@@ -22,11 +22,8 @@ $perm = $GLOBALS['perm'];
 
     <div>
         <?php
-        $endAdmission = strtotime("+1 day", strtotime("now"));
-        
         if ($start):
             echo 'Start: '.strftime('%x', strtotime($start));
-            $endAdmission = strtotime("+1 week 1 day", strtotime($start));
         endif;
 
         if ($duration):
@@ -38,7 +35,7 @@ $perm = $GLOBALS['perm'];
             echo formatReady($hint);
         endif;
         ?>
-        <? if (!$perm->have_studip_perm('autor', $course->id) && !$preliminary && ($endAdmission > strtotime("now"))): ?>
+        <? if (!$perm->have_studip_perm('autor', $course->id) && !$preliminary): ?>
         <?= \Studip\LinkButton::create("Zur Anmeldung", $controller->url_for('registrations/new', array('moocid' => $course->id))) ?>
         <? endif ?>
     </div>

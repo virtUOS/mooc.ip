@@ -10,7 +10,7 @@ require __DIR__.'/../vendor/autoload.php';
 class AddPrivacyPolicyDataField extends Migration
 {
     private $privacyPolicy = <<<EOT
-<h1>Datenschutzerkl‰rung</h1>
+<h1>Datenschutzerkl√§rung</h1>
 
 <p>
   Super da per, qui tu europeo millennios registrate, lo libro immediatementevia.
@@ -55,7 +55,7 @@ EOT;
             'type'        => 'string',
             'range'       => 'global',
             'section'     => 'global',
-            'description' => 'Datenschutzerkl‰rung'
+            'description' => 'Datenschutzerkl√§rung'
         ));
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @author Till Glöggler <tgloeggl@uos.de>
+ * @author Till GlÃ¶ggler <tgloeggl@uos.de>
  */
 class AddOverviewDatafields extends Migration
 {
@@ -18,7 +18,7 @@ class AddOverviewDatafields extends Migration
                 `object_class`, `edit_perms`, `view_perms`, `priority`,
                 `mkdate`, `chdate`, `type`, `typeparam`, `is_required`, `description`)
             VALUES (md5('(M)OOC-Preview-Image'), '(M)OOC-Preview-Image', 1,
-                NULL, 3, 1, '0', NULL, NULL, 2, '', '0', 'URL für ein Vorschaubild')"
+                NULL, 3, 1, '0', NULL, NULL, 2, '', '0', 'URL fÃ¼r ein Vorschaubild')"
         );
 
         DBManager::get()->exec(
@@ -26,7 +26,7 @@ class AddOverviewDatafields extends Migration
                 `object_class`, `edit_perms`, `view_perms`, `priority`,
                 `mkdate`, `chdate`, `type`, `typeparam`, `is_required`, `description`)
             VALUES (md5('(M)OOC-Preview-Video (mp4)'), '(M)OOC-Preview-Video (mp4)', 1,
-                NULL, 3, 1, '0', NULL, NULL, 2, '', '0', 'URL für ein Vorschauvideo')"
+                NULL, 3, 1, '0', NULL, NULL, 2, '', '0', 'URL fÃ¼r ein Vorschauvideo')"
         );
     }
 

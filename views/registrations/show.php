@@ -4,7 +4,7 @@ $body_id = 'mooc-registrations-index';
 
 <h1><?= htmlReady($course->name) ?></h1>
 
-<h2><?= _mooc('Vielen Dank für Ihre Anmeldung!') ?></h2>
+<h2><?= _mooc('Vielen Dank fÃ¼r Ihre Anmeldung!') ?></h2>
 
 <div id="messages"></div>
 
@@ -12,9 +12,9 @@ $body_id = 'mooc-registrations-index';
 <br>
 
 <?= _mooc('Wir haben soeben eine E-Mail an die angegebene Adresse geschickt, in der Ihr Passwort enthalten ist.'
-        . ' Mit diesem Passwort können Sie sich nun einloggen.') ?>
+        . ' Mit diesem Passwort kÃ¶nnen Sie sich nun einloggen.') ?>
 <br><br>
-<?= _mooc('Falls Sie die E-Mail nicht erhalten haben, können Sie sie sich erneut schicken lassen.') ?><br>
+<?= _mooc('Falls Sie die E-Mail nicht erhalten haben, kÃ¶nnen Sie sie sich erneut schicken lassen.') ?><br>
 
 <?= Studip\LinkButton::create(_mooc('E-Mail erneut senden'), 'javascript:', array(
     'name'         => 'resend_mail',

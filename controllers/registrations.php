@@ -25,7 +25,7 @@ class RegistrationsController extends MoocipController {
     }
 
     public function new_action()
-    {        
+    {
         if (Navigation::hasItem('/mooc/registrations')) {
             Navigation::activateItem("/mooc/registrations");
         }
@@ -40,12 +40,10 @@ class RegistrationsController extends MoocipController {
         $this->course = Course::find($this->cid);
         $this->fields = $this->parseRegistrationFormFields();
 
-        /**
         if (!Request::option('accept_tos')) {
-            $this->flash['error'] = _mooc('Sie m¸ssen die Nutzungsbedingungen akzeptieren!');
+            $this->flash['error'] = _mooc('Sie m√ºssen die Nutzungsbedingungen akzeptieren!');
             return;
         }
-         */
 
         switch (Request::get('type')) {
             default:
@@ -85,7 +83,7 @@ class RegistrationsController extends MoocipController {
 
         if ($_SESSION['mooc']['register']['username'] == $user->username) {
             $this->sendMail($course, $user->username, $_SESSION['mooc']['register']['password']);
-            $this->render_json(array('message' => _mooc('Die Best‰tigungsmail wurde erfolgreich erneut versendet!')));
+            $this->render_json(array('message' => _mooc('Die Best√§tigungsmail wurde erfolgreich erneut versendet!')));
         } else {
             throw new Trails_Exception(400, 'Invalid session');
         }
@@ -135,7 +133,6 @@ class RegistrationsController extends MoocipController {
     {
         $this->userInput = array();
         $filledRequiredFields = true;
-        $email_restriction = Config::get()->EMAIL_DOMAIN_RESTRICTION;
 
         foreach ($this->fields as $field) {
             // string "fields" are free text that is displayed as is and
@@ -145,23 +142,8 @@ class RegistrationsController extends MoocipController {
             }
 
             $fieldName = $field['fieldName'];
-            
-            if($fieldName == 'd99127ecf0e9610b70cd7c19314c5926'){ /// 278744e59b610a0e2021601b1b577f1a'){ /lokales testsystem
-                $fieldValue = Request::get($fieldName);
-                $fieldValue = implode('|', $fieldValue);
-            } else {
-                $fieldValue = Request::get($fieldName);
-            }
-            
-            
+            $fieldValue = Request::get($fieldName);
             $this->userInput[$fieldName] = $fieldValue;
-            
-            if ($fieldName == 'mail' ){
-                if(file_get_contents('https://www.mogelmail.de/q/' . explode('@', $fieldValue)[1]) == '1'){
-                    $this->flash['error']  = _mooc('Bitte keine einmal-eMail-Adressen verwenden!');
-                    return;
-                }
-            }
 
             if ($field['required'] && (trim($fieldValue) === '')) {
                 $filledRequiredFields = false;
@@ -169,7 +151,7 @@ class RegistrationsController extends MoocipController {
         }
 
         if (!$filledRequiredFields) {
-            $this->flash['error'] = _mooc('Sie m¸ssen alle Pflichtfelder ausf¸llen!');
+            $this->flash['error'] = _mooc('Sie m√ºssen alle Pflichtfelder ausf√ºllen!');
 
             return;
         }
@@ -181,9 +163,8 @@ class RegistrationsController extends MoocipController {
         }
 
         $this->registerUserWithCourse($user, $this->cid);
-        //$this->redirect($this->url_for('courses/show/'. $this->cid .'?loginname='. $user->username));
-        $this->redirect(URLHelper::getURL('index.php', array('again' => 'yes', 'loginname' => $user->username)));
-        //$this->redirect('registrations/show/'. $user->getId() .'?moocid=' . $this->cid);
+
+        $this->redirect('registrations/show/'. $user->getId() .'?moocid=' . $this->cid);
     }
 
     private function error($msg, $url)
@@ -234,7 +215,6 @@ class RegistrationsController extends MoocipController {
         );
 
         foreach ($additionalData as $fieldName => $value) {
-            
             if (!$this->isDataFieldFormField($fieldName)) {
                 continue;
             }
@@ -253,14 +233,14 @@ class RegistrationsController extends MoocipController {
     private function sendMail($course, $mail, $password)
     {
         URLHelper::setBaseUrl($GLOBALS['ABSOLUTE_URI_STUDIP']);
-        $link = 'https://ohn-kursportal.de/index.php?again=yes';//$this->url_for('courses/show/' . $course->id);
+        $link = $this->url_for('courses/show/' . $course->id);
 
         // send mail with password to user
         $mail_msg = sprintf(
-            _mooc("Ihre Zugangsdaten f¸r den MOOC-Kurs '%s':\n\n"
+            _mooc("Ihre Zugangsdaten f√ºr den MOOC-Kurs '%s':\n\n"
             . "Benutzername: %s \n"
             . "Passwort: %s \n\n"
-            . "Loggen Sie sich mit Ihren Zugangsdaten hier ein:\n %s"),
+            . "Hier kommen Sie direkt zum Kurs:\n %s"),
             $course->name, $mail, $password, $link
         );
         StudipMail::sendMessage($mail, sprintf(_mooc('Zugang zum MOOC-Kurs "%s"'), $course->name), $mail_msg);
@@ -309,7 +289,7 @@ class RegistrationsController extends MoocipController {
     private function registerUserWithCourse($user, $cid)
     {
         $course = new Course($cid);
-
+        
         if (!$course->getParticipantStatus($user->id)){
             if ($course->admission_prelim) {
                 $new = new AdmissionApplication(array($user->id,  $cid));
@@ -328,7 +308,6 @@ class RegistrationsController extends MoocipController {
                 }
             }
         }
-
         return $course;
     }
 
@@ -345,7 +324,7 @@ class RegistrationsController extends MoocipController {
             'email' => 'mail',
             'birthday' => 'geburtsdatum',
             'sex' => 'geschlecht',
-           // 'terms_of_service' => 'accept_tos',
+            'terms_of_service' => 'accept_tos',
         );
 
         foreach ($fields as $field) {
@@ -378,7 +357,7 @@ class RegistrationsController extends MoocipController {
                     $dataField = new \DataField($fieldName);
                     $fieldType = $dataField->type;
 
-                    if ($dataField->type === 'selectbox' || $dataField->type === 'selectboxmultiple') {
+                    if ($dataField->type === 'selectbox') {
                         $choices = explode("\n", $dataField->typeparam);
                     }
                 } elseif ($fieldName !== 'terms_of_service') {
@@ -389,7 +368,7 @@ class RegistrationsController extends MoocipController {
                 if ($fieldName === 'geschlecht') {
                     $choices = array(
                         _mooc('unbekannt'),
-                        _mooc('m‰nnlich'),
+                        _mooc('m√§nnlich'),
                         _mooc('weiblich'),
                     );
                 }
